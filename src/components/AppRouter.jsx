@@ -12,7 +12,6 @@ const AppRouter = () => {
           <Route key={path} path={path} element={<Component />} exact />
         ))}
       {PublicRoutes.map(({ path, Component }) => (
-        // console.log(Component)
         <Route key={path} path={path} element={<Component />} exact />
       ))}
       {/* <Route path="*" element={<Information />} /> */}

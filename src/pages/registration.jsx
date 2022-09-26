@@ -5,25 +5,24 @@ import { observer } from "mobx-react-lite";
 import Context from "../utils/context";
 
 import UserForm from "../components/UserForm";
+import { LOGIN_ROUTE } from "../utils/consts";
 
 const Registration = observer(() => {
   useEffect(() => {
     document.title = "Sign in - SIBSIU";
   });
-
-  const { user } = useContext(Context);
   const navigate = useNavigate();
 
   const onClick = async (data) => {
     try {
-      await RegistrationReq(
+      const res = await RegistrationReq(
         data.variables.email,
         data.variables.password,
         "USER"
       );
-      user.setUser(user);
+      user.setUser(res);
       user.setIsAuth(true);
-      navigate("../");
+      navigate(HOME_ROUTE);
       alert("Signed up!");
     } catch (e) {
       alert(e?.response?.data?.message);
