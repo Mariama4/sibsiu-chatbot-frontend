@@ -1,113 +1,34 @@
-import React, { useEffect, useContext, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE } from "../utils/consts";
-import {
-  Login as LoginReq,
-  Registration as RegistrationReq,
-} from "../http/userApi";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Login as LoginReq } from "../http/userApi";
 import { observer } from "mobx-react-lite";
 import Context from "../utils/context";
-import { Container, Card, Form, Button } from "react-bootstrap";
+
+import UserForm from "../components/UserForm";
 
 const Login = observer(() => {
   useEffect(() => {
     document.title = "Sign in - SIBSIU";
   });
 
-  const { user } = useContext(Context);
-  const location = useLocation();
+  let { user } = useContext(Context);
   const navigate = useNavigate();
-  const isLogin = true;
-  // устанавливаем состояние формы по умолчанию
-  const [email, setEmail] = useState("");
-  // const [name, setName] = useState('')
-  const [password, setPassword] = useState("");
 
-  // обновляем состояние, когда пользователь вводит данные в форму
-  const onChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const onClick = async () => {
+  const onClick = async (data) => {
     try {
-      let data;
-      if (isLogin) {
-        data = await LoginReq(email, password);
-      } else {
-        data = await RegistrationReq(email, password, "USER");
-      }
-      user.setUser(user);
+      const res = await LoginReq(data.variables.email, data.variables.password);
+      console.log(res);
+      user.setUser(res);
       user.setIsAuth(true);
-      //   navigate() route to home page
+      console.log(user);
+      // navigate("../");
       alert("Signed in!");
     } catch (e) {
-      alert(e.response.data.message);
+      alert(e?.response?.data?.message);
     }
   };
 
-  return (
-    <Container
-      className={"d-flex justify-content-center align-items-center p-5"}
-    >
-      <Card className={"p-5 w-50"}>
-        <h2 className={"m-auto"}>{isLogin ? "Авторизация" : "Регистрация"}</h2>
-        <Form className={"d-flex flex-column"}>
-          <Form.Group controlId="formBasicEmail" className="mb-3">
-            <Form.Label>Email: </Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Введите ваш email..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword" className="mb-3">
-            <Form.Label>Password: </Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Введите ваш password..."
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Group>
-
-          <Button variant="primary" onClick={onClick}>
-            {isLogin ? "Войти" : "Зарегистрироваться"}
-          </Button>
-        </Form>
-      </Card>
-    </Container>
-  );
+  return <UserForm action={onClick} formType="login" />;
 });
 
 export default Login;
-
-//   <Card style={{ width: 600 }} className={"p-5"}>
-//     <h2 className={"m-auto"}>{isLogin ? "Авторизация" : "Регистрация"}</h2>
-//     <Form className={"d-flex flex-column"}>
-//       <Form.Control
-//         className={"mt-3"}
-//         placeholder={"Введите ваш email..."}
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//       ></Form.Control>
-//       <Form.Control
-//         className={"mt-3"}
-//         placeholder={"Введите ваш пароль..."}
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//         type="password"
-//       ></Form.Control>
-//       <Button
-//         className={"mt-3"}
-//         variant={"outline-primary"}
-//         onClick={onClick}
-//       >
-//         {isLogin ? "Войти" : "Зарегистрироваться"}
-//       </Button>
-//     </Form>
-//   </Card>

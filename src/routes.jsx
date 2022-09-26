@@ -1,11 +1,16 @@
-import SignIn from "./pages/login";
-import { LOGIN_ROUTE } from "./utils/consts";
+import Login from "./pages/login";
+import Registration from "./pages/registration";
+import { LOGIN_ROUTE, REGISTRATION_ROUTE } from "./utils/consts";
 
 const AuthRoutes = [];
 const PublicRoutes = [
   {
     path: LOGIN_ROUTE,
-    Component: SignIn,
+    Component: Login,
+  },
+  {
+    path: REGISTRATION_ROUTE,
+    Component: Registration,
   },
 ];
 

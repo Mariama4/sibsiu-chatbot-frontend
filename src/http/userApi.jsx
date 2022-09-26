@@ -19,7 +19,6 @@ const Login = async (email, password) => {
 
 const Check = async () => {
   const { data } = await AuthHost.get("api/user/auth");
-  console.log(data);
   localStorage.setItem("token", data.token);
   return jwtDecode(data.token);
 };
