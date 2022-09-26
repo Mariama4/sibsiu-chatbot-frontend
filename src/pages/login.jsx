@@ -50,30 +50,32 @@ const Login = observer(() => {
 
   return (
     <Container
-      className={"d-flex justify-content-center align-items-center"}
-      style={{ height: window.innerHeight - 54 }}
+      className={"d-flex justify-content-center align-items-center p-5"}
     >
-      <Card style={{ width: 600 }} className={"p-5"}>
+      <Card className={"p-5 w-50"}>
         <h2 className={"m-auto"}>{isLogin ? "Авторизация" : "Регистрация"}</h2>
         <Form className={"d-flex flex-column"}>
-          <Form.Control
-            className={"mt-3"}
-            placeholder={"Введите ваш email..."}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-          <Form.Control
-            className={"mt-3"}
-            placeholder={"Введите ваш пароль..."}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-          ></Form.Control>
-          <Button
-            className={"mt-3"}
-            variant={"outline-primary"}
-            onClick={onClick}
-          >
+          <Form.Group controlId="formBasicEmail" className="mb-3">
+            <Form.Label>Email: </Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Введите ваш email..."
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword" className="mb-3">
+            <Form.Label>Password: </Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Введите ваш password..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button variant="primary" onClick={onClick}>
             {isLogin ? "Войти" : "Зарегистрироваться"}
           </Button>
         </Form>
@@ -83,3 +85,29 @@ const Login = observer(() => {
 });
 
 export default Login;
+
+//   <Card style={{ width: 600 }} className={"p-5"}>
+//     <h2 className={"m-auto"}>{isLogin ? "Авторизация" : "Регистрация"}</h2>
+//     <Form className={"d-flex flex-column"}>
+//       <Form.Control
+//         className={"mt-3"}
+//         placeholder={"Введите ваш email..."}
+//         value={email}
+//         onChange={(e) => setEmail(e.target.value)}
+//       ></Form.Control>
+//       <Form.Control
+//         className={"mt-3"}
+//         placeholder={"Введите ваш пароль..."}
+//         value={password}
+//         onChange={(e) => setPassword(e.target.value)}
+//         type="password"
+//       ></Form.Control>
+//       <Button
+//         className={"mt-3"}
+//         variant={"outline-primary"}
+//         onClick={onClick}
+//       >
+//         {isLogin ? "Войти" : "Зарегистрироваться"}
+//       </Button>
+//     </Form>
+//   </Card>

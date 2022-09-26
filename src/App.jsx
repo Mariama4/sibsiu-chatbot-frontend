@@ -2,10 +2,12 @@
 import { observer } from "mobx-react-lite";
 import Context from "./utils/context";
 import { Check } from "./http/userApi";
-import { Spinner } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Loading from "./components/Loading";
 
 const App = observer(() => {
   const { user } = useContext(Context);
@@ -24,7 +26,7 @@ const App = observer(() => {
   // }, []);
 
   // if (loading) {
-  //   return <Spinner animation={"grow"} />;
+  //   return <Loading />;
   // }
 
   return (
