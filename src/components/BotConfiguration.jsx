@@ -1,19 +1,33 @@
 import React, { useState } from "react";
-import { useContext } from "react";
-import { Card, Form, Row } from "react-bootstrap";
-import Context from "../utils/context";
 
-const BotConfiguration = () => {
-  const { botConfiguration } = useContext(Context);
-  // не нравится так, но иначе хз пока что
+import { Badge, Button, Card, Container, Form } from "react-bootstrap";
+import { UpdateToken, Reload } from "../http/botConfigurationApi";
+
+const BotConfiguration = (props) => {
+  const botConfiguration = props.data;
   const [token, setToken] = useState(botConfiguration.setting.token);
-  const [status, setStatus] = useState(botConfiguration.setting.status);
+
+  const onClickSave = async (e) => {
+    e.preventDefault();
+    console.log(botConfiguration.setting);
+    const res = await UpdateToken(botConfiguration.setting.id, token);
+    botConfiguration.setSetting(res);
+    console.log(botConfiguration.setting);
+  };
+  const onClickReload = async (e) => {
+    e.preventDefault();
+  };
+  const onClickTurnOff = (e) => {
+    e.preventDefault();
+    console.log(botConfiguration.setting);
+  };
   return (
     <Card className="w-60">
       <Form className="mx-2">
         <Form.Label className="mx-5 my-5 h1">
           Основные настройки чат-бота
         </Form.Label>
+
         <Form.Group controlId="token" className="my-2">
           <Form.Label>Token:</Form.Label>
           <Form.Control
@@ -33,14 +47,27 @@ const BotConfiguration = () => {
             disabled
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="status" className="my-2">
-          <Form.Check
-            type="switch"
-            label="Bot status off/on"
-            checked={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
-        </Form.Group>
+        {botConfiguration.setting.status ? (
+          <Badge bg="success">Бот включен</Badge>
+        ) : (
+          <Badge bg="danger">Бот выключен</Badge>
+        )}
+        <Form.Text className="mx-1">
+          Дата последнего обновления данных:{" "}
+          {botConfiguration.setting.updatedAt}
+        </Form.Text>
+        <hr />
+        <Container className="mb-2 d-flex justify-content-around align-items-around">
+          <Button type="submit" variant="success" onClick={onClickSave}>
+            Сохранить
+          </Button>
+          <Button type="submit" variant="warning" onClick={onClickReload}>
+            Перезагрузить
+          </Button>
+          <Button type="submit" variant="danger" onClick={onClickTurnOff}>
+            Выключить
+          </Button>
+        </Container>
       </Form>
     </Card>
   );

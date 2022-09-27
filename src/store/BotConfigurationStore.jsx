@@ -3,10 +3,11 @@ import { makeAutoObservable } from "mobx";
 export default class BotConfigurationStore {
   constructor() {
     this._setting = {
-      id: 0,
-      token: "gdfhbr5ybtrybdr",
-      bot_name: "@fghfg",
-      status: false,
+      // id: 0,
+      // token: "gdfhbr5ybtrybdr",
+      // bot_name: "@fghfg",
+      // status: true,
+      // updatedAt: "23r",
     };
     makeAutoObservable(this);
   }
