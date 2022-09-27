@@ -1,7 +1,7 @@
 import React from "react";
 import { useContext } from "react";
-import { Container, Button, Navbar } from "react-bootstrap";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Container, Button, Navbar, NavLink, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE } from "../utils/consts";
 import Context from "../utils/context";
 
@@ -16,28 +16,56 @@ const NavBar = (props) => {
     localStorage.removeItem("token");
     navigate(LOGIN_ROUTE);
   };
-  if (user.isAuth) {
-    console.log(user.isAuth);
-    return (
-      <Container
-        className="d-flex flex-column flex-shrink-0 p-3 bg-dark"
-        style={{ width: "20%" }}
-      >
-        <Navbar></Navbar>
-        <Button
-          variant={"primary"}
-          className="mx-3"
-          onClick={() => {
-            logOut();
-          }}
+  return (
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <a
+          style={{ color: "white" }}
+          target="_blank"
+          href="https://www.sibsiu.ru/"
         >
-          Выход
-        </Button>
+          СибГИУ
+        </a>
+        {user.isAuth ? (
+          <Nav className="me-auto">
+            <Nav.Link>
+              <NavLink>Тест авторизован</NavLink>
+            </Nav.Link>
+          </Nav>
+        ) : (
+          <Nav className="me-auto">
+            <Nav.Link>
+              <NavLink>Тест не авторизован</NavLink>
+            </Nav.Link>
+          </Nav>
+        )}{" "}
+        {user.isAuth ? (
+          <Nav style={{ color: "white" }}>
+            <Button
+              variant={"outline-light"}
+              className="mx-3"
+              onClick={() => {
+                logOut();
+              }}
+            >
+              Выход
+            </Button>
+          </Nav>
+        ) : (
+          <Nav style={{ color: "white" }}>
+            <Button
+              variant={"outline-light"}
+              onClick={() => {
+                navigate(LOGIN_ROUTE);
+              }}
+            >
+              Авторизация
+            </Button>
+          </Nav>
+        )}
       </Container>
-    );
-  } else {
-    <Container />;
-  }
+    </Navbar>
+  );
 };
 
 export default NavBar;
