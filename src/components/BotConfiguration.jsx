@@ -9,10 +9,9 @@ const BotConfiguration = (props) => {
 
   const onClickSave = async (e) => {
     e.preventDefault();
-    console.log(botConfiguration.setting);
     const res = await UpdateToken(botConfiguration.setting.id, token);
     botConfiguration.setSetting(res);
-    console.log(botConfiguration.setting);
+    alert("Saved!");
   };
   const onClickReload = async (e) => {
     e.preventDefault();

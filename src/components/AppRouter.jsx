@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
+import Home from "../pages/home";
+import Login from "../pages/login";
 import { AuthRoutes, PublicRoutes } from "../routes";
 import Context from "../utils/context";
 
@@ -14,7 +16,11 @@ const AppRouter = () => {
       {PublicRoutes.map(({ path, Component }) => (
         <Route key={path} path={path} element={<Component />} exact />
       ))}
-      {/* <Route path="*" element={<Information />} /> */}
+      {user.isAuth ? (
+        <Route path="*" element={<Home />} />
+      ) : (
+        <Route path="*" element={<Login />} />
+      )}
     </Routes>
   );
 };

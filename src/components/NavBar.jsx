@@ -2,7 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import { Container, Button, Navbar, Nav, NavbarBrand } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
+import { CONSTRUCTOR_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
 import Context from "../utils/context";
 
 const NavBar = (props) => {
@@ -32,12 +32,15 @@ const NavBar = (props) => {
             <Nav.Item>
               <Nav.Link href={HOME_ROUTE}>Home</Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href={CONSTRUCTOR_ROUTE}>Constructor</Nav.Link>
+            </Nav.Item>
           </Nav>
         ) : (
           <Nav className="me-auto">
-            <Nav.Item>
+            {/* <Nav.Item>
               <Nav.Link href={LOGIN_ROUTE}>Не авт</Nav.Link>
-            </Nav.Item>
+            </Nav.Item> */}
           </Nav>
         )}
         {user.isAuth ? (

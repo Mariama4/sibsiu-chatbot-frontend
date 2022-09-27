@@ -1,12 +1,22 @@
+import Constructor from "./pages/constructor";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Registration from "./pages/registration";
-import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from "./utils/consts";
+import {
+  CONSTRUCTOR_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+} from "./utils/consts";
 
 const AuthRoutes = [
   {
     path: HOME_ROUTE,
     Component: Home,
+  },
+  {
+    path: CONSTRUCTOR_ROUTE,
+    Component: Constructor,
   },
 ];
 const PublicRoutes = [
