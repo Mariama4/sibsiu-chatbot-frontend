@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import { Container, Button, Navbar, Nav } from "react-bootstrap";
+import { Container, Button, Navbar, Nav, NavbarBrand } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
 import Context from "../utils/context";
@@ -19,34 +19,29 @@ const NavBar = (props) => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <a
+        <NavbarBrand
           style={{ color: "white" }}
           href="https://www.sibsiu.ru/"
           target="_blank"
           rel="noreferrer"
         >
           СибГИУ
-        </a>
-        {
-          user.isAuth ? (
-            <Nav className="me-auto">
-              <Nav.Item>
-                <Nav.Link href={HOME_ROUTE}>авт</Nav.Link>
-              </Nav.Item>
-            </Nav>
-          ) : (
-            <Nav className="me-auto">
-              <Nav.Item>
-                <Nav.Link href={LOGIN_ROUTE}>Не авт</Nav.Link>
-              </Nav.Item>
-            </Nav>
-          )
-
-          // </nav>
-        }
+        </NavbarBrand>
+        {user.isAuth ? (
+          <Nav className="me-auto">
+            <Nav.Item>
+              <Nav.Link href={HOME_ROUTE}>Home</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        ) : (
+          <Nav className="me-auto">
+            <Nav.Item>
+              <Nav.Link href={LOGIN_ROUTE}>Не авт</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        )}
         {user.isAuth ? (
           <Nav style={{ color: "white" }}>
-            <Button variant={"outline-light"}>Админ. панель</Button>
             <Button
               variant={"outline-light"}
               className="mx-3"
