@@ -22,15 +22,16 @@ const BotConfiguration = (props) => {
     console.log(botConfiguration.setting);
   };
   return (
-    <Card className="w-60">
+    <Card className="">
       <Form className="mx-2">
-        <Form.Label className="mx-5 my-5 h1">
+        <Form.Label className="mx-5 my-5 h4">
           Основные настройки чат-бота
         </Form.Label>
 
         <Form.Group controlId="token" className="my-2">
           <Form.Label>Token:</Form.Label>
           <Form.Control
+            className="text-truncate"
             type="text"
             placeholder="Bot token..."
             value={token}

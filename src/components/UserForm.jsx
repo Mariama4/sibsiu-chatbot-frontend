@@ -18,7 +18,7 @@ const UserForm = (props) => {
     <Container
       className={"d-flex justify-content-center align-items-center p-5"}
     >
-      <Card className={"p-5 w-50"}>
+      <Card className={"p-5"}>
         <h2 className={"m-auto"}>
           {props.formType === "login" ? "Авторизация" : "Регистрация"}
         </h2>

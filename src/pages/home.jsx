@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import BotConfiguration from "../components/BotConfiguration";
 import Loading from "../components/Loading";
 import Context from "../utils/context";
 import { Reload } from "../http/botConfigurationApi";
+import BotLog from "../components/BotLog";
+import TelegramUserLog from "../components/TelegramUserLog";
 
 const Home = () => {
   const { botConfiguration } = useContext(Context);
@@ -22,8 +24,10 @@ const Home = () => {
     return <Loading />;
   }
   return (
-    <Container className="d-flex justify-content-center align-items-center p-5">
+    <Container className="d-flex flex-row justify-content-between align-items-around pt-5">
       <BotConfiguration data={botConfiguration} />
+      <BotLog />
+      <TelegramUserLog />
     </Container>
   );
 };
