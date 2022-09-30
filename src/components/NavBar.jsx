@@ -2,7 +2,12 @@ import React from "react";
 import { useContext } from "react";
 import { Container, Button, Navbar, Nav, NavbarBrand } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { CONSTRUCTOR_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
+import {
+  CONSTRUCTOR_ROUTE,
+  FRAMES_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+} from "../utils/consts";
 import Context from "../utils/context";
 
 const NavBar = (props) => {
@@ -12,7 +17,6 @@ const NavBar = (props) => {
   const logOut = () => {
     user.setUser({});
     user.setIsAuth(false);
-    console.log(user.isAuth);
     localStorage.removeItem("token");
     navigate(LOGIN_ROUTE);
   };
@@ -33,7 +37,12 @@ const NavBar = (props) => {
               <Nav.Link href={HOME_ROUTE}>Home</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href={CONSTRUCTOR_ROUTE}>Constructor</Nav.Link>
+              <Nav.Link href={CONSTRUCTOR_ROUTE}>
+                Constructor (Не работает)
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href={FRAMES_ROUTE}>Frames</Nav.Link>
             </Nav.Item>
           </Nav>
         ) : (
