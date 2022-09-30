@@ -5,9 +5,14 @@ const UpdateToken = async (id, token) => {
   return data;
 };
 
+const UpdateBotName = async (id, name) => {
+  const { data } = await Host.patch("api/configuration/botname", { id, name });
+  return data;
+};
+
 const Reload = async () => {
   const { data } = await Host.get("api/configuration");
   return data;
 };
 
-export { UpdateToken, Reload };
+export { UpdateToken, Reload, UpdateBotName };

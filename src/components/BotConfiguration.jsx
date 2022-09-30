@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 
 import { Badge, Button, Card, Container, Form } from "react-bootstrap";
-import { UpdateToken, Reload } from "../http/botConfigurationApi";
+import {
+  UpdateToken,
+  Reload,
+  UpdateBotName,
+} from "../http/botConfigurationApi";
 
 const BotConfiguration = (props) => {
   const botConfiguration = props.data;
   const [token, setToken] = useState(botConfiguration.setting.token);
+  const [botName, setBotName] = useState(botConfiguration.setting.bot_name);
 
   const onClickSave = async (e) => {
     e.preventDefault();
-    const res = await UpdateToken(botConfiguration.setting.id, token);
-    botConfiguration.setSetting(res);
+    const res_token = await UpdateToken(botConfiguration.setting.id, token);
+    const res_botName = await UpdateBotName(
+      botConfiguration.setting.id,
+      botName
+    );
+    botConfiguration.setSetting(res_botName);
     alert("Saved!");
   };
   const onClickReload = async (e) => {
@@ -43,8 +52,8 @@ const BotConfiguration = (props) => {
           <Form.Control
             type="text"
             placeholder="Bot name..."
-            value={botConfiguration.setting.bot_name}
-            disabled
+            value={botName}
+            onChange={(e) => setBotName(e.target.value)}
           ></Form.Control>
         </Form.Group>
         {botConfiguration.setting.status ? (

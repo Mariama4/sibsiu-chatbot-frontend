@@ -11,6 +11,7 @@ const Home = () => {
   const { botConfiguration } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    document.title = "Home - SIBSIU";
     const fetchData = async () => {
       return await Reload();
     };
