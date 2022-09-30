@@ -15,4 +15,9 @@ const Reload = async () => {
   return data;
 };
 
-export { UpdateToken, Reload, UpdateBotName };
+const UpdateBotStatus = async (id, status) => {
+  const { data } = await Host.patch("api/configuration/status", { id, status });
+  return data;
+};
+
+export { UpdateToken, Reload, UpdateBotName, UpdateBotStatus };

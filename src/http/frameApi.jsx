@@ -5,4 +5,9 @@ const getFrames = async () => {
   return data;
 };
 
-export { getFrames };
+const updateFrame = async (id, frame) => {
+  const data = await Host.patch("api/frame", { id, data: frame });
+  return data;
+};
+
+export { getFrames, updateFrame };

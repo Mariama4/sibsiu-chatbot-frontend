@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
+import FrameModalForm from "./FrameModalForm";
 
 const FrameItem = (props) => {
   const item = JSON.parse(props.item);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   //   console.log(item);
   return (
     <ListGroup.Item
@@ -13,10 +18,11 @@ const FrameItem = (props) => {
       <div className="ms-2 me-auto">
         <div className="fw-bold">{item.data.ID}</div>
       </div>
-      <Button className="mx-1" variant="warning">
+      <Button className="mx-1" variant="warning" onClick={handleShow}>
         Редактировать
       </Button>
       <Button variant="danger">Удалить</Button>
+      <FrameModalForm data={item} show={show} handleClose={handleClose} />
     </ListGroup.Item>
   );
 };
