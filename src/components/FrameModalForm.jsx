@@ -13,71 +13,59 @@ import { updateFrame } from "../http/frameApi";
 import Context from "../utils/context";
 
 const FrameModalForm = observer((props) => {
-  const item = props.data;
-  const { frame } = useContext(Context);
-  //   const [id, setId] = useState(item.data.ID);
+  const [id, setId] = useState(props.data.data.ID);
+  const [message, setMessage] = useState(props.data.data.DATA.MESSAGE);
 
-  //   const [radioValue, setRadioValue] = useState();
-  //   const radios = [
-  //     { name: "TEXT", value: "1" },
-  //     { name: "PHOTO", value: "2" },
-  //     { name: "MEDIA_GROUP", value: "3" },
-  //   ];
+  const onChangeId = (event) => {
+    setId(event.target.value);
+    // console.log(id);
+    // console.log(message);
+  };
 
-  // NEW
-  const [rawJson, setRawJson] = useState(JSON.stringify(item.data, null, 2));
+  const onChangeMessage = (event) => {
+    // console.log({
+    //   ...message,
+    //   [event.target.name]: event.target.value,
+    // });
+    setMessage({
+      ...message,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const saveFrame = async () => {
-    const jsonFrame = JSON.parse(rawJson);
-    const response = await updateFrame(item.id, jsonFrame);
-    frame.setFrames(response["data"]["updatedFrames"]);
+    console.log({
+      id,
+      message,
+    });
     props.handleClose();
   };
 
   return (
     <Modal fullscreen={true} show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Редактирование: {item.data.ID}</Modal.Title>
+        <Modal.Title>Редактирование: {id}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form className="row">
-          {/* Оставлю на потом, тк пока для меня сложно :(  */}
-          {/* <Form.Group className="mb-1 col-12" controlId="data.id">
-            <Form.Label>ID:</Form.Label>
+          <Form.Group controlId="ID" className="">
+            <Form.Label>ID: </Form.Label>
             <Form.Control
               type="text"
-              placeholder="id...."
+              name="ID"
+              placeholder="Введите ID Frame"
               value={id}
-              onChange={(e) => {
-                setId(e.target.value);
-              }}
+              onChange={onChangeId}
             />
           </Form.Group>
-          <h5>Тип сообщения:</h5>
-          <ButtonGroup>
-            {radios.map((radio, idx) => (
-              <ToggleButton
-                key={idx}
-                id={`radio-${idx}`}
-                type="radio"
-                variant="outline-primary"
-                name="radio"
-                value={radio.value}
-                checked={radioValue === radio.value}
-                onChange={(e) => setRadioValue(e.currentTarget.value)}
-              >
-                {radio.name}
-              </ToggleButton>
-            ))}
-          </ButtonGroup> */}
-
-          <Form.Group className="mb-1 col-12" controlId="data">
-            <Form.Label>RAW JSON:</Form.Label>
+          <Form.Group controlId="TYPE" className="">
+            <Form.Label>TYPE: </Form.Label>
             <Form.Control
-              as="textarea"
-              rows={40}
-              value={rawJson}
-              onChange={(e) => setRawJson(e.target.value)}
+              type="text"
+              name="TYPE"
+              placeholder="Введите TYPE MESSAGE"
+              value={message.TYPE}
+              onChange={onChangeMessage}
             />
           </Form.Group>
         </Form>
