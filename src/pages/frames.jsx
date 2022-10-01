@@ -4,8 +4,9 @@ import { getFrames } from "../http/frameApi";
 import Context from "../utils/context";
 import Loading from "../components/Loading";
 import FrameList from "../components/FrameList";
+import { observer } from "mobx-react-lite";
 
-const Frames = () => {
+const Frames = observer(() => {
   const { frame } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -24,9 +25,9 @@ const Frames = () => {
   }
   return (
     <Container>
-      <FrameList list={frame.frames} />
+      <FrameList list={frame} />
     </Container>
   );
-};
+});
 
 export default Frames;

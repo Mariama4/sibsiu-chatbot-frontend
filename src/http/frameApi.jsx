@@ -10,4 +10,9 @@ const updateFrame = async (id, frame) => {
   return data;
 };
 
-export { getFrames, updateFrame };
+const addFrame = async (frame) => {
+  const data = await Host.post("api/frame", { data: frame });
+  return data;
+};
+
+export { getFrames, updateFrame, addFrame };
