@@ -1,4 +1,6 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import {
   Form,
@@ -8,9 +10,11 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 import { updateFrame } from "../http/frameApi";
+import Context from "../utils/context";
 
-const FrameModalForm = (props) => {
+const FrameModalForm = observer((props) => {
   const item = props.data;
+  const { frame } = useContext(Context);
   //   const [id, setId] = useState(item.data.ID);
 
   //   const [radioValue, setRadioValue] = useState();
@@ -25,8 +29,9 @@ const FrameModalForm = (props) => {
 
   const saveFrame = async () => {
     const jsonFrame = JSON.parse(rawJson);
-    const { data } = await updateFrame(item.id, jsonFrame);
-    console.log(data);
+    const response = await updateFrame(item.id, jsonFrame);
+    frame.setFrames(response["data"]["updatedFrames"]);
+    props.handleClose();
   };
 
   return (
@@ -87,6 +92,6 @@ const FrameModalForm = (props) => {
       </Modal.Footer>
     </Modal>
   );
-};
+});
 
 export default FrameModalForm;

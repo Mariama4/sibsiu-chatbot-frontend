@@ -1,8 +1,10 @@
+import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
+
 import FrameModalForm from "./FrameModalForm";
 
-const FrameItem = (props) => {
+const FrameItem = observer((props) => {
   const item = JSON.parse(props.item);
   const [show, setShow] = useState(false);
 
@@ -21,10 +23,17 @@ const FrameItem = (props) => {
       <Button className="mx-1" variant="warning" onClick={handleShow}>
         Редактировать
       </Button>
-      <Button variant="danger">Удалить</Button>
+      <Button
+        variant="danger"
+        onClick={() => {
+          props.onDelete(item.id);
+        }}
+      >
+        Удалить
+      </Button>
       <FrameModalForm data={item} show={show} handleClose={handleClose} />
     </ListGroup.Item>
   );
-};
+});
 
 export default FrameItem;

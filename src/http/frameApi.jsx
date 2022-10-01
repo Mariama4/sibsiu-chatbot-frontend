@@ -15,4 +15,9 @@ const addFrame = async (frame) => {
   return data;
 };
 
-export { getFrames, updateFrame, addFrame };
+const deleteFrame = async (id) => {
+  const data = await Host.delete(`api/frame/${id}`);
+  return data;
+};
+
+export { getFrames, updateFrame, addFrame, deleteFrame };

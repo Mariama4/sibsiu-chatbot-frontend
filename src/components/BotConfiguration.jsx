@@ -26,7 +26,7 @@ const BotConfiguration = observer((props) => {
       botName
     );
     botConfiguration.setSetting(res_botName);
-    alert("Saved!");
+    // alert("Saved!");
   };
 
   // да да можно одну функцию на !status, но пока так
@@ -39,7 +39,7 @@ const BotConfiguration = observer((props) => {
     botConfiguration.setSetting(updatedConfiguration);
     // setBotStatus(botConfiguration.setting.status);
     // setUpdatedAt(botConfiguration.setting.updatedAt);
-    alert("Updated!");
+    // alert("Updated!");
   };
   return (
     <Card className="">

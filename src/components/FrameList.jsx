@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { deleteFrame } from "../http/frameApi";
 import { useState } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
 import { addFrame, getFrames } from "../http/frameApi";
@@ -17,6 +18,12 @@ const FrameList = observer((props) => {
     const response = await getFrames();
     props.list.setFrames(response["frames"]);
   };
+
+  const delFrame = async (id) => {
+    await deleteFrame(id);
+    const response = await getFrames();
+    props.list.setFrames(response["frames"]);
+  };
   return (
     <Container>
       <Container className="d-flex justify-content-between align-items-center">
@@ -29,7 +36,11 @@ const FrameList = observer((props) => {
         {props.list.frames.map((element, index) => {
           // wtf react
           return (
-            <FrameItem key={element["id"]} item={JSON.stringify(element)} />
+            <FrameItem
+              key={element["id"]}
+              item={JSON.stringify(element)}
+              onDelete={delFrame}
+            />
           );
         })}
       </ListGroup>
