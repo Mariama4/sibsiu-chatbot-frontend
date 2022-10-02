@@ -30,10 +30,10 @@ const PublicRoutes = [
     path: LOGIN_ROUTE,
     Component: Login,
   },
-  // {
-  //   path: REGISTRATION_ROUTE,
-  //   Component: Registration,
-  // },
+  {
+    path: REGISTRATION_ROUTE,
+    Component: Registration,
+  },
 ];
 
 export { AuthRoutes, PublicRoutes };
