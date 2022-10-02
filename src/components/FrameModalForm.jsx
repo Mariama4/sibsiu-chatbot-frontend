@@ -222,10 +222,17 @@ const FrameModalForm = observer((props) => {
             </Col>
             <Col md={3}>
               <Card className="p-2">
+                <video controls width="250" height="200" muted>
+                  <source
+                    src={
+                      uri + "public/" + props.data.data.DATA.MESSAGE.VIDEO_NOTE
+                    }
+                  />
+                </video>
                 <Figure className="mt-2">
-                  <Figure.Caption>
+                  {/* <Figure.Caption>
                     {uri + "public/" + props.data.data.DATA.MESSAGE.VIDEO_NOTE}
-                  </Figure.Caption>
+                  </Figure.Caption> */}
                   <Form.Group controlId="VIDEO_NOTE" className="">
                     <Form.Label>VIDEO_NOTE: </Form.Label>
                     <Form.Control
@@ -234,6 +241,7 @@ const FrameModalForm = observer((props) => {
                       onChange={onChangeVideoNote}
                     />
                   </Form.Group>
+
                   <Form.Group controlId="VIDEO_NOTE_CAPTION" className="">
                     <Form.Label>VIDEO_NOTE_CAPTION: </Form.Label>
                     <Form.Control
