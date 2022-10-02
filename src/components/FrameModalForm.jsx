@@ -42,11 +42,34 @@ const FrameModalForm = observer((props) => {
       [event.target.name]: event.target.value,
     });
   };
+  const onDeleteButton = (event) => {
+    setButtons(
+      buttons.filter((element, index) => {
+        return event.target.name != index;
+      })
+    );
+  };
   const onChangeButton = (event) => {
-    setButtons({
-      ...message,
-      [event.target.name]: event.target.value,
-    });
+    setButtons(
+      buttons.map((element, index) => {
+        if (index == event.target.getAttribute("subname")) {
+          element[event.target.name] = event.target.value;
+          return element;
+        } else {
+          return element;
+        }
+      })
+    );
+  };
+
+  const onAddButton = (event) => {
+    setButtons([
+      ...buttons,
+      {
+        TEXT: "new",
+        REDIRECT_ON_ID_FRAME: "new",
+      },
+    ]);
   };
   const onChangePhoto = (event) => {
     setPhoto(event.target.files);
@@ -347,6 +370,69 @@ const FrameModalForm = observer((props) => {
                 </Form.Group>
               </Card>
             </Col>
+          </Row>
+          <hr />
+          <Row className="mt-4">
+            <Col
+              md={12}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <h3>Кнопки:</h3>
+              <Button className="mx-2" onClick={onAddButton}>
+                Добавить
+              </Button>
+            </Col>
+            {buttons.map((element, index) => {
+              return (
+                <Card key={index} className="m-2 p-2">
+                  <Row className="">
+                    <Col md={5}>
+                      <Form.Group as={Row} controlId="TEXT">
+                        <Col md={1}>
+                          <Form.Label>TEXT:</Form.Label>
+                        </Col>
+                        <Col md={11}>
+                          {" "}
+                          <Form.Control
+                            type="text"
+                            subname={index}
+                            name="TEXT"
+                            value={element["TEXT"]}
+                            onChange={onChangeButton}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </Col>
+                    <Col md={5}>
+                      <Form.Group as={Row} controlId="REDIRECT_ON_ID_FRAME">
+                        <Col md={5}>
+                          {" "}
+                          <Form.Label>REDIRECT_ON_ID_FRAME:</Form.Label>
+                        </Col>
+                        <Col md={7}>
+                          <Form.Control
+                            type="text"
+                            subname={index}
+                            name="REDIRECT_ON_ID_FRAME"
+                            value={element["REDIRECT_ON_ID_FRAME"]}
+                            onChange={onChangeButton}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </Col>
+                    <Col md={2} className="align-self-center">
+                      <Button
+                        name={index}
+                        variant="danger"
+                        onClick={onDeleteButton}
+                      >
+                        Удалить
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card>
+              );
+            })}
           </Row>
         </Form>
       </Modal.Body>
