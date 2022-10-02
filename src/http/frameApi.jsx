@@ -5,13 +5,13 @@ const getFrames = async () => {
   return data;
 };
 
-const updateFrame = async (id, frame) => {
-  const data = await Host.patch("api/frame", { id, data: frame });
+const updateFrame = async (formData) => {
+  const data = await Host.patch("api/frame", formData);
   return data;
 };
 
-const addFrame = async (frame) => {
-  const data = await Host.post("api/frame", { data: frame });
+const addFrame = async (formData) => {
+  const data = await Host.post("api/frame", formData);
   return data;
 };
 
