@@ -10,31 +10,54 @@ import {
   ToggleButton,
   Row,
   Col,
+  Figure,
+  Card,
 } from "react-bootstrap";
 import { updateFrame } from "../http/frameApi";
 import Context from "../utils/context";
 
 const FrameModalForm = observer((props) => {
+  const uri = import.meta.env.VITE_APP_API_URL;
   const { frame } = useContext(Context);
   const [id, setId] = useState(props.data.data.ID);
   const [message, setMessage] = useState(props.data.data.DATA.MESSAGE);
   const [buttons, setButtons] = useState(props.data.data.DATA.BUTTONS);
+  const [photo, setPhoto] = useState(props.data.data.DATA.MESSAGE.PHOTO);
+  const [mediaGroup, setMediaGroup] = useState(
+    props.data.data.DATA.MESSAGE.MEDIA_GROUP
+  );
+  const [videoNote, setVideoNote] = useState(
+    props.data.data.DATA.MESSAGE.VIDEO_NOTE
+  );
+  const [media, setMedia] = useState();
+  const mediaTypes = ["PHOTO", "MEDIA_GROUP", "VIDEO_NOTE"];
 
   const onChangeId = (event) => {
     setId(event.target.value);
-    // console.log(id);
-    // console.log(message);
   };
 
   const onChangeMessage = (event) => {
-    // console.log({
-    //   ...message,
-    //   [event.target.name]: event.target.value,
-    // });
     setMessage({
       ...message,
       [event.target.name]: event.target.value,
     });
+  };
+  const onChangeButton = (event) => {
+    setButtons({
+      ...message,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const onChangePhoto = (event) => {
+    setPhoto(event.target.files);
+  };
+
+  const onChangeMediaGroup = (event) => {
+    setMediaGroup(event.target.files);
+  };
+
+  const onChangeVideoNote = (event) => {
+    setVideoNote(event.target.files);
   };
 
   const saveFrame = async () => {
@@ -48,6 +71,15 @@ const FrameModalForm = observer((props) => {
     let formData = new FormData();
     formData.append("id", props.data.id);
     formData.append("data", JSON.stringify(data));
+    if (data.DATA.MESSAGE.TYPE == "PHOTO") {
+      formData.append("photo", photo[0]);
+    } else if (data.DATA.MESSAGE.TYPE == "MEDIA_GROUP") {
+      for (let i = 0; i < mediaGroup.length; i++) {
+        formData.append("media", mediaGroup[i]);
+      }
+    } else if (data.DATA.MESSAGE.TYPE == "VIDEO_NOTE") {
+      formData.append("video_note", videoNote[0]);
+    }
     const response = await updateFrame(formData);
     frame.setFrames(response.data.updatedFrames);
     props.handleClose();
@@ -117,17 +149,195 @@ const FrameModalForm = observer((props) => {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
+          <Row className="mt-2">
             <Col md={3}>
-              <Form.Group controlId="PHOTO_URL" className="">
-                <Form.Label>PHOTO_URL: </Form.Label>
-                <Form.Control
-                  type="file"
-                  name="PHOTO_URL"
-                  // value={message.TYPE}
-                  // onChange={onChangeMessage}
-                />
-              </Form.Group>
+              <Card className="p-2">
+                <Figure className="mt-2">
+                  <Figure.Image
+                    width={180}
+                    height={180}
+                    alt="180x180"
+                    src={uri + "public/" + props.data.data.DATA.MESSAGE.PHOTO}
+                  />
+                  <Form.Group controlId="PHOTO_URL" className="">
+                    <Form.Label>PHOTO_URL: </Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="PHOTO_URL"
+                      onChange={onChangePhoto}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="PHOTO_CAPTION" className="">
+                    <Form.Label>PHOTO_CAPTION: </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      type="text"
+                      name="PHOTO_CAPTION"
+                      value={message.PHOTO_CAPTION}
+                      onChange={onChangeMessage}
+                    />
+                  </Form.Group>
+                </Figure>
+              </Card>
+            </Col>
+            <Col md={6}>
+              <Card className="p-2">
+                <Figure className="mt-2">
+                  {props.data.data.DATA.MESSAGE.MEDIA_GROUP.map(
+                    (element, index) => {
+                      return (
+                        <Figure.Image
+                          key={index}
+                          width={90}
+                          height={90}
+                          alt="90x90"
+                          src={uri + "public/" + element}
+                        />
+                      );
+                    }
+                  )}
+                  <Form.Group controlId="MEDIA_GROUP" className="">
+                    <Form.Label>MEDIA_GROUP: </Form.Label>
+                    <Form.Control
+                      multiple
+                      type="file"
+                      name="MEDIA_GROUP"
+                      onChange={onChangeMediaGroup}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="MEDIA_CAPTION" className="">
+                    <Form.Label>MEDIA_CAPTION: </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      type="text"
+                      name="MEDIA_CAPTION"
+                      value={message.MEDIA_CAPTION}
+                      onChange={onChangeMessage}
+                    />
+                  </Form.Group>
+                </Figure>
+              </Card>
+            </Col>
+            <Col md={3}>
+              <Card className="p-2">
+                <Figure className="mt-2">
+                  <Figure.Caption>
+                    {uri + "public/" + props.data.data.DATA.MESSAGE.VIDEO_NOTE}
+                  </Figure.Caption>
+                  <Form.Group controlId="VIDEO_NOTE" className="">
+                    <Form.Label>VIDEO_NOTE: </Form.Label>
+                    <Form.Control
+                      type="file"
+                      name="VIDEO_NOTE"
+                      onChange={onChangeVideoNote}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="VIDEO_NOTE_CAPTION" className="">
+                    <Form.Label>VIDEO_NOTE_CAPTION: </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      type="text"
+                      name="VIDEO_NOTE_CAPTION"
+                      value={message.VIDEO_NOTE_CAPTION}
+                      onChange={onChangeMessage}
+                    />
+                  </Form.Group>
+                </Figure>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Card className="p-2">
+                <Form.Group controlId="VENUE_LATITUDE" className="">
+                  <Form.Label>VENUE_LATITUDE: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="VENUE_LATITUDE"
+                    value={message.VENUE_LATITUDE}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="VENUE_LONGITUDE" className="">
+                  <Form.Label>VENUE_LONGITUDE: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="VENUE_LONGITUDE"
+                    value={message.VENUE_LONGITUDE}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="VENUE_TITLE" className="">
+                  <Form.Label>VENUE_TITLE: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="VENUE_TITLE"
+                    value={message.VENUE_TITLE}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="VENUE_ADDRESS" className="">
+                  <Form.Label>VENUE_ADDRESS: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="VENUE_ADDRESS"
+                    value={message.VENUE_ADDRESS}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="VENUE_CAPTION" className="">
+                  <Form.Label>VENUE_CAPTION: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="VENUE_CAPTION"
+                    value={message.VENUE_CAPTION}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+              </Card>
+            </Col>
+            <Col md={6}>
+              <Card className="p-2">
+                <Form.Group controlId="CONTACT_PHONE_NUMBER" className="">
+                  <Form.Label>CONTACT_PHONE_NUMBER: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="CONTACT_PHONE_NUMBER"
+                    value={message.CONTACT_PHONE_NUMBER}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="CONTACT_FIRST_NAME" className="">
+                  <Form.Label>CONTACT_FIRST_NAME: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="CONTACT_FIRST_NAME"
+                    value={message.CONTACT_FIRST_NAME}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="CONTACT_LAST_NAME" className="">
+                  <Form.Label>CONTACT_LAST_NAME: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="CONTACT_LAST_NAME"
+                    value={message.CONTACT_LAST_NAME}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+                <Form.Group controlId="CONTACT_CAPTION" className="">
+                  <Form.Label>CONTACT_CAPTION: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="CONTACT_CAPTION"
+                    value={message.CONTACT_CAPTION}
+                    onChange={onChangeMessage}
+                  />
+                </Form.Group>
+              </Card>
             </Col>
           </Row>
         </Form>
