@@ -22,7 +22,7 @@ const NavBar = observer((props) => {
     navigate(LOGIN_ROUTE);
   };
   return (
-    <Navbar bg="light">
+    <Navbar bg="light" className="shadow">
       <Container>
         <NavbarBrand
           href="https://www.sibsiu.ru/"

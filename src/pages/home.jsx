@@ -23,10 +23,12 @@ const Home = observer(() => {
     return <Loading />;
   }
   return (
-    <Container className="d-flex flex-row justify-content-between align-items-around pt-5">
+    <Container
+      className="d-flex flex-row justify-content-center align-items-center"
+      style={{ width: "100vh", height: "80vh" }}
+      fluid
+    >
       <BotConfiguration data={botConfiguration} />
-      <BotLog />
-      <TelegramUserLog />
     </Container>
   );
 });

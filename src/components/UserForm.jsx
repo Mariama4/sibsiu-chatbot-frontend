@@ -26,6 +26,7 @@ const UserForm = observer((props) => {
           });
         }}
         style={{ width: "50vh" }}
+        className="shadow-lg p-5"
       >
         <Form.Label>
           <h2>Авторизация</h2>
@@ -46,7 +47,7 @@ const UserForm = observer((props) => {
           <Form.Control
             type="password"
             name="password"
-            placeholder="Введите ваш password..."
+            placeholder="Введите ваш пароль..."
             onChange={onChange}
             required
           />
