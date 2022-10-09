@@ -19,9 +19,8 @@ const App = observer(() => {
         if (typeof data === "undefined") {
           user.setUser(false);
           user.setIsAuth(false);
-          // redirect(LOGIN_ROUTE);
         } else {
-          user.setUser(true);
+          user.setUser(data);
           user.setIsAuth(true);
         }
       })

@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { useContext } from "react";
 import { Container, Button, Navbar, Nav, NavbarBrand } from "react-bootstrap";
@@ -10,7 +11,7 @@ import {
 } from "../utils/consts";
 import Context from "../utils/context";
 
-const NavBar = (props) => {
+const NavBar = observer((props) => {
   const { user } = useContext(Context);
   const navigate = useNavigate();
 
@@ -21,10 +22,9 @@ const NavBar = (props) => {
     navigate(LOGIN_ROUTE);
   };
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="light">
       <Container>
         <NavbarBrand
-          style={{ color: "white" }}
           href="https://www.sibsiu.ru/"
           target="_blank"
           rel="noreferrer"
@@ -32,7 +32,7 @@ const NavBar = (props) => {
           СибГИУ
         </NavbarBrand>
         {user.isAuth ? (
-          <Nav className="me-auto">
+          <Nav className="justify-content-center">
             <Nav.Item>
               <Nav.Link href={HOME_ROUTE}>Home</Nav.Link>
             </Nav.Item>
@@ -46,16 +46,12 @@ const NavBar = (props) => {
             </Nav.Item>
           </Nav>
         ) : (
-          <Nav className="me-auto">
-            {/* <Nav.Item>
-              <Nav.Link href={LOGIN_ROUTE}>Не авт</Nav.Link>
-            </Nav.Item> */}
-          </Nav>
+          <></>
         )}
         {user.isAuth ? (
-          <Nav style={{ color: "white" }}>
+          <Nav>
             <Button
-              variant={"outline-light"}
+              variant="outline-dark"
               className="mx-3"
               onClick={() => {
                 logOut();
@@ -65,9 +61,9 @@ const NavBar = (props) => {
             </Button>
           </Nav>
         ) : (
-          <Nav style={{ color: "white" }}>
+          <Nav>
             <Button
-              variant={"outline-light"}
+              variant="outline-dark"
               onClick={() => {
                 navigate(LOGIN_ROUTE);
               }}
@@ -79,6 +75,6 @@ const NavBar = (props) => {
       </Container>
     </Navbar>
   );
-};
+});
 
 export default NavBar;

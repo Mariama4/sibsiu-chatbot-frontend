@@ -1,23 +1,23 @@
-import { Host } from "./index";
+import { Host, AuthHost } from "./index";
 
 const getFrames = async () => {
-  const { data } = await Host.get("api/frame");
-  return data;
+  const { result } = await AuthHost.get("api/frame");
+  return result;
 };
 
 const updateFrame = async (formData) => {
-  const data = await Host.patch("api/frame", formData);
-  return data;
+  const { result } = await AuthHost.patch("api/frame", formData);
+  return result;
 };
 
 const addFrame = async (formData) => {
-  const data = await Host.post("api/frame", formData);
-  return data;
+  const { result } = await AuthHost.post("api/frame", formData);
+  return result;
 };
 
 const deleteFrame = async (id) => {
-  const data = await Host.delete(`api/frame/${id}`);
-  return data;
+  const { result } = await AuthHost.delete(`api/frame/${id}`);
+  return result;
 };
 
 export { getFrames, updateFrame, addFrame, deleteFrame };

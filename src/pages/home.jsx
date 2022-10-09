@@ -6,18 +6,16 @@ import Context from "../utils/context";
 import { Reload } from "../http/botConfigurationApi";
 import BotLog from "../components/BotLog";
 import TelegramUserLog from "../components/TelegramUserLog";
+import { observer } from "mobx-react-lite";
 
-const Home = () => {
+const Home = observer(() => {
   const { botConfiguration } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     document.title = "Home - SIBSIU";
-    const fetchData = async () => {
-      return await Reload();
-    };
-    fetchData()
-      .then((d) => {
-        botConfiguration.setSetting(d.configuration[0]);
+    Reload()
+      .then((data) => {
+        botConfiguration.setSetting(data.result[0]);
       })
       .finally(() => setLoading(false));
   });
@@ -31,6 +29,6 @@ const Home = () => {
       <TelegramUserLog />
     </Container>
   );
-};
+});
 
 export default Home;

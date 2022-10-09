@@ -16,15 +16,20 @@ const Login = observer(() => {
   const navigate = useNavigate();
 
   const onClick = async (data) => {
-    try {
-      const res = await LoginReq(data.variables.email, data.variables.password);
-      user.setUser(res);
-      user.setIsAuth(true);
-      navigate(HOME_ROUTE);
-      alert("Signed in!");
-    } catch (e) {
-      alert(e?.response?.data?.message);
-    }
+    await LoginReq(data.variables.email, data.variables.password)
+      .catch((error) => {
+        // оставлю так для дальнейшей обработки
+        if (error.response.status === 500) {
+          alert(error.response.data.message);
+        } else {
+          alert(error.response.data.message);
+        }
+      })
+      .then((data) => {
+        user.setUser(data);
+        user.setIsAuth(true);
+        navigate(HOME_ROUTE);
+      });
   };
 
   return <UserForm action={onClick} formType="login" />;
