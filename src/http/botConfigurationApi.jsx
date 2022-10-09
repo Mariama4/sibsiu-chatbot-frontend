@@ -8,14 +8,6 @@ const UpdateToken = async (id, token) => {
   return data;
 };
 
-const UpdateBotName = async (id, name) => {
-  const { data } = await AuthHost.patch("api/configuration/botname", {
-    id,
-    name,
-  });
-  return data;
-};
-
 const Reload = async () => {
   const { data } = await AuthHost.get("api/configuration");
   return data;
@@ -29,4 +21,4 @@ const UpdateBotStatus = async (id, status) => {
   return data;
 };
 
-export { UpdateToken, Reload, UpdateBotName, UpdateBotStatus };
+export { UpdateToken, Reload, UpdateBotStatus };

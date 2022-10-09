@@ -1,30 +1,35 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-
+import axios from "axios";
 import { Badge, Button, Card, Container, Form } from "react-bootstrap";
-import {
-  UpdateToken,
-  UpdateBotName,
-  UpdateBotStatus,
-} from "../http/botConfigurationApi";
+import { UpdateToken, UpdateBotStatus } from "../http/botConfigurationApi";
 
 const BotConfiguration = observer((props) => {
   const botConfiguration = props.data;
   // const [id, setId] = useState(botConfiguration.setting.id);
   const [token, setToken] = useState(botConfiguration.setting.token);
-  const [botName, setBotName] = useState(botConfiguration.setting.bot_name);
   // const [botStatus, setBotStatus] = useState(botConfiguration.setting.status);
   // const [updatedAt, setUpdatedAt] = useState(
   //   botConfiguration.setting.updatedAt
   // );
-
+  const options = {
+    method: "POST",
+    url: "https://api.telegram.org/bot5624767303:AAEA-cG-9_RCQQcUdZl43cA36Mky1MWYxw4/getMe",
+    headers: {
+      accept: "application/json",
+    },
+  };
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
   const onClickSave = async (e) => {
     e.preventDefault();
     await UpdateToken(botConfiguration.setting.id, token);
-    const res_botName = await UpdateBotName(
-      botConfiguration.setting.id,
-      botName
-    );
     botConfiguration.setSetting(res_botName);
     // alert("Saved!");
   };
@@ -56,16 +61,6 @@ const BotConfiguration = observer((props) => {
             placeholder="Bot token..."
             value={token}
             onChange={(e) => setToken(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="bot_name" className="my-2">
-          <Form.Label>Bot name:</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Bot name..."
-            value={botName}
-            onChange={(e) => setBotName(e.target.value)}
           ></Form.Control>
         </Form.Group>
         {botConfiguration.setting.status ? (
