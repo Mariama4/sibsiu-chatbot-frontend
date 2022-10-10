@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import axios from "axios";
-import { Badge, Button, Card, Container, Form } from "react-bootstrap";
+import { Badge, Button, Container, Form } from "react-bootstrap";
 import { UpdateToken, UpdateBotStatus } from "../http/botConfigurationApi";
 
 const BotConfiguration = observer((props) => {
@@ -13,7 +12,6 @@ const BotConfiguration = observer((props) => {
     botConfiguration.setSetting(res_botName);
   };
 
-  // да да можно одну функцию на !status, но пока так
   const onClickToggle = async (e) => {
     e.preventDefault();
     const { result } = await UpdateBotStatus(
@@ -25,7 +23,9 @@ const BotConfiguration = observer((props) => {
   return (
     <Container className="shadow-lg p-5">
       <Form>
-        <Form.Label className="h4">Основные настройки чат-бота</Form.Label>
+        <Container className="d-flex justify-content-center">
+          <Form.Label className="h4">Основные настройки чат-бота</Form.Label>
+        </Container>
         <Form.Group controlId="token" className="my-2">
           <Form.Label>Token:</Form.Label>
           <Form.Control

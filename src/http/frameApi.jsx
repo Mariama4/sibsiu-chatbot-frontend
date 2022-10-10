@@ -1,8 +1,8 @@
 import { Host, AuthHost } from "./index";
 
 const getFrames = async () => {
-  const { result } = await AuthHost.get("api/frame");
-  return result;
+  const { data } = await AuthHost.get("api/frame");
+  return data;
 };
 
 const updateFrame = async (formData) => {

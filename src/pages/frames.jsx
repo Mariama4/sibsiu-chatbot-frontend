@@ -15,8 +15,8 @@ const Frames = observer(() => {
       return await getFrames();
     };
     fetchData()
-      .then((d) => {
-        frame.setFrames(d["frames"]);
+      .then((data) => {
+        frame.setFrames(data["result"]);
       })
       .finally(() => setLoading(false));
   });
