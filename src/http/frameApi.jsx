@@ -11,8 +11,8 @@ const updateFrame = async (formData) => {
 };
 
 const addFrame = async (formData) => {
-  const { result } = await AuthHost.post("api/frame", formData);
-  return result;
+  const { data } = await AuthHost.post("api/frame", formData);
+  return data;
 };
 
 const deleteFrame = async (id) => {

@@ -7,15 +7,12 @@ import { addFrame, getFrames } from "../http/frameApi";
 import FrameItem from "./FrameItem";
 import SearchBar from "./SearchBar";
 
-const FrameList = observer((props) => {
+const FrameList = observer(({ list }) => {
   const addNewFrame = async () => {
-    // addFrame().then(())
-    // (async () => {
-    //   return await addFrame();
-    // }).then(async (e) => {
-    //   const response = await getFrames();
-    //   props.list.setFrames(response["frames"]);
-    // });
+    addFrame().then((data) => {
+      console.log(data["result"]);
+      console.log(list.frames);
+    });
   };
 
   const delFrame = async (id) => {
@@ -44,11 +41,10 @@ const FrameList = observer((props) => {
       </Row>
 
       <ListGroup as="ol" numbered>
-        {props.list.frames.map((element, index) => {
-          // wtf react
+        {list.frames.map((element, index) => {
           return (
             <FrameItem
-              key={element["id"]}
+              key={index}
               item={JSON.stringify(element)}
               onDelete={delFrame}
             />
