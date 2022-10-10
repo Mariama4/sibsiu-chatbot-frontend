@@ -3,12 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import { Container, Button, Navbar, Nav, NavbarBrand } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {
-  CONSTRUCTOR_ROUTE,
-  FRAMES_ROUTE,
-  HOME_ROUTE,
-  LOGIN_ROUTE,
-} from "../utils/consts";
+import { FRAMES_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "../utils/consts";
 import Context from "../utils/context";
 
 const NavBar = observer((props) => {
@@ -35,11 +30,6 @@ const NavBar = observer((props) => {
           <Nav className="justify-content-center">
             <Nav.Item>
               <Nav.Link href={HOME_ROUTE}>Home</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href={CONSTRUCTOR_ROUTE}>
-                Constructor (Не работает)
-              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link href={FRAMES_ROUTE}>Frames</Nav.Link>
