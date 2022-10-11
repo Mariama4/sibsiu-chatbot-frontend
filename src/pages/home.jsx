@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import BotConfiguration from "../components/BotConfiguration";
 import Loading from "../components/Loading";
 import Context from "../utils/context";
 import { Reload } from "../http/botConfigurationApi";
-import BotLog from "../components/BotLog";
-import TelegramUserLog from "../components/TelegramUserLog";
 import { observer } from "mobx-react-lite";
 
 const Home = observer(() => {
