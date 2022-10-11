@@ -2,23 +2,31 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { deleteFrame } from "../http/frameApi";
 import { useState } from "react";
-import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, ListGroup, Row, Form } from "react-bootstrap";
 import { addFrame, getFrames } from "../http/frameApi";
 import FrameItem from "./FrameItem";
-import SearchBar from "./SearchBar";
 
 const FrameList = observer(({ list }) => {
+  const [frames, setFrames] = useState(list.frames);
+  const [searchFrames, setSeatchFrames] = useState("");
   const addNewFrame = async () => {
-    addFrame().then((data) => {
-      console.log(data["result"]);
-      console.log(list.frames);
+    addFrame().then((response) => {
+      getFrames().then((response) => {
+        setFrames(response["result"]);
+      });
     });
   };
 
   const delFrame = async (id) => {
-    // await deleteFrame(id);
-    // const response = await getFrames();
-    // props.list.setFrames(response["frames"]);
+    deleteFrame(id).then((response) => {
+      getFrames().then((response) => {
+        setFrames(response["result"]);
+      });
+    });
+  };
+
+  const onSearchFrames = (event) => {
+    setSeatchFrames(event.target.value);
   };
   return (
     <Container className="mt-3">
@@ -27,7 +35,13 @@ const FrameList = observer(({ list }) => {
         className="d-flex justify-content-between align-items-center shadow"
       >
         <Col md={"10"}>
-          <SearchBar />
+          <Container className="p-3">
+            <Form.Control
+              id="searchBar"
+              placeholder="Введите frame id для поиска"
+              onChange={onSearchFrames}
+            />
+          </Container>
         </Col>
         <Col md={"2"}>
           <Button
@@ -41,15 +55,19 @@ const FrameList = observer(({ list }) => {
       </Row>
 
       <ListGroup as="ol" numbered>
-        {list.frames.map((element, index) => {
-          return (
-            <FrameItem
-              key={index}
-              item={JSON.stringify(element)}
-              onDelete={delFrame}
-            />
-          );
-        })}
+        {frames
+          .filter((element) => {
+            return element["data"]["frame_id"].includes(searchFrames);
+          })
+          .map((element, index) => {
+            return (
+              <FrameItem
+                key={index}
+                item={JSON.stringify(element)}
+                onDelete={delFrame}
+              />
+            );
+          })}
       </ListGroup>
     </Container>
   );
