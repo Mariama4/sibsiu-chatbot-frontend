@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Form,
   Modal,
@@ -12,16 +12,18 @@ import {
   OverlayTrigger,
   Container,
 } from "react-bootstrap";
-import { updateFrame } from "../http/frameApi";
+import { getFrames, updateFrame } from "../http/frameApi";
 import ButtonsBodyModal from "./frameModal/ButtonsBodyModal";
 import TextBodyModal from "./frameModal/TextBodyModal";
+import Context from "../utils/context";
 
 const FrameModalForm = observer(({ data, show, handleClose }) => {
-  const uri = import.meta.env.VITE_APP_API_URL;
+  const { frame } = useContext(Context);
+  // const uri = import.meta.env.VITE_APP_API_URL;
   const [frameId, setFrameId] = useState(data.data.frame_id);
-  // const [frameData, setFrameData] = useState(data.data.frame);
   const [frameType, setFrameType] = useState(data.data.frame.type);
   const [buttons, setButtons] = useState(data.data.frame.markup);
+  const [frameData, setFrameData] = useState(data.data.frame);
   const frameTypes = [
     {
       type: "text",
@@ -89,14 +91,14 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
   //   setVideoNote(event.target.files);
   // };
   const saveFrame = async () => {
+    data.data.frame = frameData;
     data.data.frame_id = frameId;
-    data.data.frame = data.data.frame;
+    data.data.frame.markup = buttons;
     data.data.frame.type = frameType;
 
-    // let formData = new FormData();
-    // formData.append("id", data.id);
-    // formData.append("data", JSON.stringify(data.data));
-    console.log(data);
+    let formData = new FormData();
+    formData.append("id", data.id);
+    formData.append("data", JSON.stringify(data.data));
     // if (data.DATA.MESSAGE.TYPE == "PHOTO") {
     //   formData.append("photo", photo[0]);
     // } else if (data.DATA.MESSAGE.TYPE == "MEDIA_GROUP") {
@@ -106,17 +108,21 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
     // } else if (data.DATA.MESSAGE.TYPE == "VIDEO_NOTE") {
     //   formData.append("video_note", videoNote[0]);
     // }
-    // const response = await updateFrame(formData);
-    // frame.setFrames(response.data.updatedFrames);
-    // props.handleClose();
+    updateFrame(formData)
+      .catch((error) => console.log(error))
+      .then((response) => {
+        alert(response.message);
+        getFrames().then((response) => {
+          frame.setFrames(response["result"]);
+          handleClose();
+        });
+      });
   };
 
   return (
     <Modal fullscreen={true} show={show} onHide={handleClose}>
       <Modal.Header closeButton className="shadow">
-        <Modal.Title>
-          Редактирование: {data.data.frame_id} + test name
-        </Modal.Title>
+        <Modal.Title>Редактирование: {data.data.frame_id}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>

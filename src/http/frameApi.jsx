@@ -6,8 +6,8 @@ const getFrames = async () => {
 };
 
 const updateFrame = async (formData) => {
-  const { result } = await AuthHost.patch("api/frame", formData);
-  return result;
+  const { data } = await AuthHost.patch("api/frame", formData);
+  return data;
 };
 
 const addFrame = async (formData) => {
@@ -16,8 +16,8 @@ const addFrame = async (formData) => {
 };
 
 const deleteFrame = async (id) => {
-  const { result } = await AuthHost.delete(`api/frame/${id}`);
-  return result;
+  const { data } = await AuthHost.delete(`api/frame/${id}`);
+  return data;
 };
 
 export { getFrames, updateFrame, addFrame, deleteFrame };

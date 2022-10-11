@@ -49,7 +49,6 @@ const ButtonsBodyModal = observer(({ buttons, setButtons }) => {
       </Col>
       <Container>
         {buttons.map((element, index) => {
-          console.log(buttons);
           return (
             <Row
               key={index}

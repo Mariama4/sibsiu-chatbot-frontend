@@ -17,7 +17,7 @@ const FrameItem = observer(({ item, onDelete }) => {
     >
       {" "}
       <div className="ms-2 me-auto">
-        <div className="fw-bold">{frame.data.frame_id} + "12312</div>
+        <div className="fw-bold">{frame.data.frame_id}</div>
       </div>
       <Button className="mx-1" variant="outline-success" onClick={handleShow}>
         Редактировать
