@@ -5,14 +5,18 @@ import { useState } from "react";
 import { Button, Col, Container, ListGroup, Row, Form } from "react-bootstrap";
 import { addFrame, getFrames } from "../http/frameApi";
 import FrameItem from "./FrameItem";
+import Loading from "./Loading";
+import { useContext } from "react";
+import Context from "../utils/context";
 
-const FrameList = observer(({ list }) => {
-  const [frames, setFrames] = useState(list.frames);
+const FrameList = observer(() => {
+  const { frame } = useContext(Context);
   const [searchFrames, setSeatchFrames] = useState("");
+
   const addNewFrame = async () => {
     addFrame().then((response) => {
       getFrames().then((response) => {
-        setFrames(response["result"]);
+        frame.setFrames(response["result"]);
       });
     });
   };
@@ -20,7 +24,7 @@ const FrameList = observer(({ list }) => {
   const delFrame = async (id) => {
     deleteFrame(id).then((response) => {
       getFrames().then((response) => {
-        setFrames(response["result"]);
+        frame.setFrames(response["result"]);
       });
     });
   };
@@ -28,6 +32,7 @@ const FrameList = observer(({ list }) => {
   const onSearchFrames = (event) => {
     setSeatchFrames(event.target.value);
   };
+
   return (
     <Container className="mt-3">
       <Row
@@ -55,17 +60,13 @@ const FrameList = observer(({ list }) => {
       </Row>
 
       <ListGroup as="ol" numbered>
-        {frames
+        {frame.frames
           .filter((element) => {
             return element["data"]["frame_id"].includes(searchFrames);
           })
           .map((element, index) => {
             return (
-              <FrameItem
-                key={index}
-                item={JSON.stringify(element)}
-                onDelete={delFrame}
-              />
+              <FrameItem key={index} id={element.id} onDelete={delFrame} />
             );
           })}
       </ListGroup>

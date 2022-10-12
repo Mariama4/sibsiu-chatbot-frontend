@@ -13,4 +13,10 @@ export default class FrameStore {
   get frames() {
     return this._frames;
   }
+
+  getById(id) {
+    return this._frames.filter((element) => {
+      return element.id === id;
+    })[0];
+  }
 }

@@ -1,8 +1,7 @@
-import { observer } from "mobx-react-lite";
 import React from "react";
 import { Row, Button, Col, Form, Container } from "react-bootstrap";
 
-const ButtonsBodyModal = observer(({ buttons, setButtons }) => {
+const ButtonsBodyModal = ({ buttons, setButtons }) => {
   const onDeleteButton = (event) => {
     setButtons(
       buttons.filter((element, index) => {
@@ -111,6 +110,6 @@ const ButtonsBodyModal = observer(({ buttons, setButtons }) => {
       </Container>
     </Row>
   );
-});
+};
 
 export default ButtonsBodyModal;

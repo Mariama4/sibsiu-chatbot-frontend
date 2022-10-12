@@ -1,11 +1,13 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
+import Context from "../utils/context";
 
 import FrameModalForm from "./FrameModalForm";
 
-const FrameItem = observer(({ item, onDelete }) => {
-  const frame = JSON.parse(item);
+const FrameItem = observer(({ id, onDelete }) => {
+  const { frame } = useContext(Context);
+  const currentFrame = frame.getById(id);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -17,7 +19,7 @@ const FrameItem = observer(({ item, onDelete }) => {
     >
       {" "}
       <div className="ms-2 me-auto">
-        <div className="fw-bold">{frame.data.frame_id}</div>
+        <div className="fw-bold">{currentFrame.data.frame_id}</div>
       </div>
       <Button className="mx-1" variant="outline-success" onClick={handleShow}>
         Редактировать
@@ -25,12 +27,16 @@ const FrameItem = observer(({ item, onDelete }) => {
       <Button
         variant="outline-danger"
         onClick={() => {
-          onDelete(frame.id);
+          onDelete(currentFrame.id);
         }}
       >
         Удалить
       </Button>
-      <FrameModalForm data={frame} show={show} handleClose={handleClose} />
+      <FrameModalForm
+        id={currentFrame.id}
+        show={show}
+        handleClose={handleClose}
+      />
     </ListGroup.Item>
   );
 });

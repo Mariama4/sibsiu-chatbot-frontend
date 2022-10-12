@@ -25,7 +25,7 @@ const Frames = observer(() => {
   }
   return (
     <Container>
-      <FrameList list={frame} />
+      <FrameList />
     </Container>
   );
 });

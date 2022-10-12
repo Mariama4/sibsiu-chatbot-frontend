@@ -15,50 +15,103 @@ import {
 import { getFrames, updateFrame } from "../http/frameApi";
 import ButtonsBodyModal from "./frameModal/ButtonsBodyModal";
 import TextBodyModal from "./frameModal/TextBodyModal";
+import PhotoBodyModal from "./frameModal/PhotoBodyModal";
 import Context from "../utils/context";
 
-const FrameModalForm = observer(({ data, show, handleClose }) => {
+const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
-  // const uri = import.meta.env.VITE_APP_API_URL;
-  const [frameId, setFrameId] = useState(data.data.frame_id);
-  const [frameType, setFrameType] = useState(data.data.frame.type);
-  const [buttons, setButtons] = useState(data.data.frame.markup);
-  const [frameData, setFrameData] = useState(data.data.frame);
+  const currentFrame = frame.getById(id);
+  const [frameId, setFrameId] = useState(currentFrame.data.frame_id);
+  const [frameType, setFrameType] = useState(currentFrame.data.frame.type);
+  const [buttons, setButtons] = useState(currentFrame.data.frame.markup);
+  const [frameData, setFrameData] = useState(currentFrame.data.frame);
+  const [media, setMedia] = useState();
   const frameTypes = [
     {
       type: "text",
       name: "Текст",
       tooltip: "Сообщение типа текст",
-      modal: <TextBodyModal frame={data.data.frame} />,
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
-    { type: "photo", name: "Фото", tooltip: "Сообщение типа фото" },
-    { type: "video", name: "Видео", tooltip: "Сообщение типа видео" },
-    { type: "audio", name: "Аудио", tooltip: "Сообщение типа аудио" },
+    {
+      type: "photo",
+      name: "Фото",
+      tooltip: "Сообщение типа фото",
+      modal: (
+        <PhotoBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
+    },
+    {
+      type: "video",
+      name: "Видео",
+      tooltip: "Сообщение типа видео",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
+    {
+      type: "audio",
+      name: "Аудио",
+      tooltip: "Сообщение типа аудио",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
     {
       type: "voice",
       name: "Голосовое сообщение",
       tooltip: "Сообщение типа голосовое сообщение",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
     {
       type: "media_group",
       name: "Несколько медиафайлов",
       tooltip: "Сообщение типа медиа файлы",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
     {
       type: "video_note",
-      name: "Видео круглишок",
-      tooltip: "Сообщение типа видео круглишок",
+      name: "Видео кругляшок",
+      tooltip: "Сообщение типа видео кругляшок",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
-    { type: "venue", name: "Адрес", tooltip: "Сообщение типа адрес" },
-    { type: "contact", name: "Контакт", tooltip: "Сообщение типа контакт" },
+    {
+      type: "venue",
+      name: "Адрес",
+      tooltip: "Сообщение типа адрес",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
+    {
+      type: "contact",
+      name: "Контакт",
+      tooltip: "Сообщение типа контакт",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
     {
       type: "web_app",
       name: "Веб-приложение",
       tooltip: "Сообщение типа веб-приложение",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
-    { type: "document", name: "Документ", tooltip: "Сообщение типа документ" },
-    { type: "location", name: "Локация", tooltip: "Сообщение типа локация" },
-    { type: "animation", name: "Анимация", tooltip: "Сообщение типа анимация" },
+    {
+      type: "document",
+      name: "Документ",
+      tooltip: "Сообщение типа документ",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
+    {
+      type: "location",
+      name: "Локация",
+      tooltip: "Сообщение типа локация",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
+    {
+      type: "animation",
+      name: "Анимация",
+      tooltip: "Сообщение типа анимация",
+      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+    },
   ];
   // const [message, setMessage] = useState(props.data.data.DATA.MESSAGE);
   // const [buttons, setButtons] = useState(props.data.data.DATA.BUTTONS);
@@ -90,17 +143,35 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
   // const onChangeVideoNote = (event) => {
   //   setVideoNote(event.target.files);
   // };
-  const saveFrame = async () => {
-    data.data.frame = frameData;
-    data.data.frame_id = frameId;
-    data.data.frame.markup = buttons;
-    data.data.frame.type = frameType;
+  const onChangeType = (event) => {
+    setFrameData({
+      ...frameData,
+      ["type"]: event.target.name,
+    });
+    setFrameType(event.target.name);
+  };
 
+  const onChangeId = (event) => {
+    setFrameId(event.target.value);
+  };
+
+  const saveFrame = async () => {
+    // data.data.frame = frameData;
+    // data.data.frame_id = frameId;
+    // data.data.frame.markup = buttons;
+    let newData = {
+      frame_id: frameId,
+      frame: frameData,
+    };
+    newData.frame.markup = buttons;
     let formData = new FormData();
-    formData.append("id", data.id);
-    formData.append("data", JSON.stringify(data.data));
-    // if (data.DATA.MESSAGE.TYPE == "PHOTO") {
-    //   formData.append("photo", photo[0]);
+    formData.append("id", id);
+    formData.append("data", JSON.stringify(newData));
+    if (typeof media !== "undefined") {
+      if (newData.frame.type == "photo") {
+        formData.append("media", media[0]);
+      }
+    }
     // } else if (data.DATA.MESSAGE.TYPE == "MEDIA_GROUP") {
     //   for (let i = 0; i < mediaGroup.length; i++) {
     //     formData.append("media", mediaGroup[i]);
@@ -111,10 +182,10 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
     updateFrame(formData)
       .catch((error) => console.log(error))
       .then((response) => {
-        alert(response.message);
+        alert(response?.message);
         getFrames().then((response) => {
           frame.setFrames(response["result"]);
-          handleClose();
+          window.location.reload();
         });
       });
   };
@@ -122,14 +193,14 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
   return (
     <Modal fullscreen={true} show={show} onHide={handleClose}>
       <Modal.Header closeButton className="shadow">
-        <Modal.Title>Редактирование: {data.data.frame_id}</Modal.Title>
+        <Modal.Title>Редактирование: {frameId}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Container className="shadow pt-2 pb-2 rounded" fluid>
             <Form.Group as={Row} className="mb-3" controlId="frame_id">
               <Form.Label column md="1">
-                Frame id:
+                Имя (Frame id):
               </Form.Label>
               <Col md="11">
                 <Form.Control
@@ -137,16 +208,16 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
                   name="frame_id"
                   placeholder="Введите frame id"
                   value={frameId}
-                  onChange={(e) => setFrameId(e.target.value)}
+                  onChange={onChangeId}
                 />
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3" controlId="frame_type">
               <Form.Label column md="1">
-                Frame type:
+                Тип:
               </Form.Label>
               <Col md="11">
-                <ButtonGroup>
+                <ButtonGroup className="flex-wrap">
                   {frameTypes.map((element, index) => {
                     return (
                       <OverlayTrigger
@@ -162,7 +233,7 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
                           name={element.type}
                           variant="outline-primary"
                           active={element.type == frameType}
-                          onClick={(e) => setFrameType(e.target.name)}
+                          onClick={onChangeType}
                         >
                           {element.name}
                         </Button>
@@ -175,6 +246,7 @@ const FrameModalForm = observer(({ data, show, handleClose }) => {
           </Container>
           <hr />
           <Container className="shadow pt-2 pb-2 rounded" fluid>
+            <h3>Сообщение:</h3>
             {
               frameTypes.filter((element) => element.type == frameType)[0]
                 ?.modal
