@@ -55,7 +55,7 @@ const MediaGroupBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
             ).map((element, index) => {
               let ext = element.split(".").pop();
               return (
-                <a target="_blank" href={element}>
+                <a key={index} target="_blank" href={element}>
                   {element}
                 </a>
               );

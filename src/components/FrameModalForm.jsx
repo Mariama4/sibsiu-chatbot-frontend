@@ -13,6 +13,7 @@ import {
   Container,
 } from "react-bootstrap";
 import { getFrames, updateFrame } from "../http/frameApi";
+import Context from "../utils/context";
 import ButtonsBodyModal from "./frameModal/ButtonsBodyModal";
 import TextBodyModal from "./frameModal/TextBodyModal";
 import PhotoBodyModal from "./frameModal/PhotoBodyModal";
@@ -22,7 +23,7 @@ import VoiceBodyModal from "./frameModal/VoiceBodyModal";
 import MediaGroupBodyModal from "./frameModal/MediaGroupBodyModal";
 import VideoNoteBodyModal from "./frameModal/VideoNoteBodyModal";
 import VenueBodyModal from "./frameModal/VenueBodyModal";
-import Context from "../utils/context";
+import ContactBodyModal from "./frameModal/ContactBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -134,7 +135,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "contact",
       name: "Контакт",
       tooltip: "Сообщение типа контакт",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <ContactBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "web_app",
