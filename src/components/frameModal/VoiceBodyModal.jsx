@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, Col, Figure, Row, Form } from "react-bootstrap";
 import ReactPlayer from "react-player";
 
-const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
+const VoiceBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   const [localSrc, setLocalSrc] = useState("");
   const uri = import.meta.env.VITE_APP_API_URL;
   const onChange = (event) => {
@@ -26,43 +26,43 @@ const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   return (
     <Row className="mt-2 mb-2">
       <Col md={9}>
-        <Form.Group controlId="video_caption">
+        <Form.Group controlId="voice_caption">
           <Form.Label>Текст: </Form.Label>
           <Form.Control
             as="textarea"
-            rows={10}
+            rows={17}
             type="text"
-            name="video_caption"
+            name="voice_caption"
             placeholder="Введите текст сообщения..."
-            value={frame.video_caption}
+            value={frame.voice_caption}
             onChange={onChange}
           />
         </Form.Group>
       </Col>
       <Col md={3} className="">
-        <Card style={{ width: "18rem" }} border="light">
-          <Card.Title>Видео:</Card.Title>
-          <ReactPlayer
-            controls
-            width={"250"}
-            height={"200"}
-            muted
-            className="align-self-center"
-            url={
-              localSrc != ""
-                ? localSrc
-                : frame.video != ""
-                ? uri + "public/" + frame.video
-                : "https://via.placeholder.com/180.png"
-            }
-          />
+        <Card border="light" bg="light">
+          <Card.Header>Голосовое сообщение:</Card.Header>
+          <div className="align-self-top">
+            <ReactPlayer
+              controls
+              muted
+              className="align-self-center"
+              url={
+                localSrc != ""
+                  ? localSrc
+                  : frame.voice != ""
+                  ? uri + "public/" + frame.voice
+                  : "https://via.placeholder.com/180.png"
+              }
+            />
+          </div>
           <Card.Body>
-            <Form.Group controlId="video" className="">
+            <Form.Group controlId="voice" className="">
               <Form.Control
                 type="file"
-                name="video"
+                name="voice"
                 onChange={uploadMedia}
-                accept=".mp4"
+                accept=".mp3, .ogg"
               />
             </Form.Group>
           </Card.Body>
@@ -72,4 +72,4 @@ const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   );
 });
 
-export default VideoBodyModal;
+export default VoiceBodyModal;

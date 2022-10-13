@@ -16,6 +16,10 @@ import { getFrames, updateFrame } from "../http/frameApi";
 import ButtonsBodyModal from "./frameModal/ButtonsBodyModal";
 import TextBodyModal from "./frameModal/TextBodyModal";
 import PhotoBodyModal from "./frameModal/PhotoBodyModal";
+import VideoBodyModal from "./frameModal/VideoBodyModal";
+import AudioBodyModal from "./frameModal/AudioBodyModal";
+import VoiceBodyModal from "./frameModal/VoiceBodyModal";
+import MediaGroupBodyModal from "./frameModal/MediaGroupBodyModal";
 import Context from "../utils/context";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
@@ -50,25 +54,53 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "video",
       name: "Видео",
       tooltip: "Сообщение типа видео",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <VideoBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "audio",
       name: "Аудио",
       tooltip: "Сообщение типа аудио",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <AudioBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "voice",
       name: "Голосовое сообщение",
       tooltip: "Сообщение типа голосовое сообщение",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <VoiceBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "media_group",
       name: "Несколько медиафайлов",
       tooltip: "Сообщение типа медиа файлы",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <MediaGroupBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "video_note",
@@ -113,36 +145,7 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
     },
   ];
-  // const [message, setMessage] = useState(props.data.data.DATA.MESSAGE);
-  // const [buttons, setButtons] = useState(props.data.data.DATA.BUTTONS);
-  // const [photo, setPhoto] = useState(props.data.data.DATA.MESSAGE.PHOTO);
-  // const [mediaGroup, setMediaGroup] = useState(
-  //   props.data.data.DATA.MESSAGE.MEDIA_GROUP
-  // );
-  // const [videoNote, setVideoNote] = useState(
-  //   props.data.data.DATA.MESSAGE.VIDEO_NOTE
-  // );
-  // const [media, setMedia] = useState();
-  // const mediaTypes = ["PHOTO", "MEDIA_GROUP", "VIDEO_NOTE"];
-  // const onChangeId = (event) => {
-  //   setId(event.target.value);
-  // };
-  // const onChangeMessage = (event) => {
-  //   setMessage({
-  //     ...message,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // };
 
-  // const onChangePhoto = (event) => {
-  //   setPhoto(event.target.files);
-  // };
-  // const onChangeMediaGroup = (event) => {
-  //   setMediaGroup(event.target.files);
-  // };
-  // const onChangeVideoNote = (event) => {
-  //   setVideoNote(event.target.files);
-  // };
   const onChangeType = (event) => {
     setFrameData({
       ...frameData,
@@ -156,9 +159,6 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
   };
 
   const saveFrame = async () => {
-    // data.data.frame = frameData;
-    // data.data.frame_id = frameId;
-    // data.data.frame.markup = buttons;
     let newData = {
       frame_id: frameId,
       frame: frameData,
@@ -168,17 +168,22 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
     formData.append("id", id);
     formData.append("data", JSON.stringify(newData));
     if (typeof media !== "undefined") {
-      if (newData.frame.type == "photo") {
-        formData.append("media", media[0]);
+      if (
+        newData.frame.type == "photo" ||
+        newData.frame.type == "video" ||
+        newData.frame.type == "audio" ||
+        newData.frame.type == "voice" ||
+        newData.frame.type == "video_note" ||
+        newData.frame.type == "document" ||
+        newData.frame.type == "animation"
+      ) {
+        formData.append("media", media);
+      } else if (newData.frame.type == "media_group") {
+        for (let i = 0; i < media.length; i++) {
+          formData.append("media", media[i]);
+        }
       }
     }
-    // } else if (data.DATA.MESSAGE.TYPE == "MEDIA_GROUP") {
-    //   for (let i = 0; i < mediaGroup.length; i++) {
-    //     formData.append("media", mediaGroup[i]);
-    //   }
-    // } else if (data.DATA.MESSAGE.TYPE == "VIDEO_NOTE") {
-    //   formData.append("video_note", videoNote[0]);
-    // }
     updateFrame(formData)
       .catch((error) => console.log(error))
       .then((response) => {
