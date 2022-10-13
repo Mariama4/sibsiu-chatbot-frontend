@@ -21,6 +21,7 @@ import AudioBodyModal from "./frameModal/AudioBodyModal";
 import VoiceBodyModal from "./frameModal/VoiceBodyModal";
 import MediaGroupBodyModal from "./frameModal/MediaGroupBodyModal";
 import VideoNoteBodyModal from "./frameModal/VideoNoteBodyModal";
+import VenueBodyModal from "./frameModal/VenueBodyModal";
 import Context from "../utils/context";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
@@ -120,7 +121,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "venue",
       name: "Адрес",
       tooltip: "Сообщение типа адрес",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <VenueBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "contact",
