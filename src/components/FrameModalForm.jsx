@@ -20,6 +20,7 @@ import VideoBodyModal from "./frameModal/VideoBodyModal";
 import AudioBodyModal from "./frameModal/AudioBodyModal";
 import VoiceBodyModal from "./frameModal/VoiceBodyModal";
 import MediaGroupBodyModal from "./frameModal/MediaGroupBodyModal";
+import VideoNoteBodyModal from "./frameModal/VideoNoteBodyModal";
 import Context from "../utils/context";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
@@ -106,7 +107,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "video_note",
       name: "Видео кругляшок",
       tooltip: "Сообщение типа видео кругляшок",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <VideoNoteBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "venue",
