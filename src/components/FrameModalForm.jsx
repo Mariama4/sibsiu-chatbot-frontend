@@ -26,6 +26,7 @@ import VenueBodyModal from "./frameModal/VenueBodyModal";
 import ContactBodyModal from "./frameModal/ContactBodyModal";
 import WebAppBodyModal from "./frameModal/WebAppBodyModal";
 import DocumentBodyModal from "./frameModal/DocumentBodyModal";
+import LocationBodyModal from "./frameModal/LocationBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -176,7 +177,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "location",
       name: "Локация",
       tooltip: "Сообщение типа локация",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <LocationBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "animation",
