@@ -25,6 +25,7 @@ import VideoNoteBodyModal from "./frameModal/VideoNoteBodyModal";
 import VenueBodyModal from "./frameModal/VenueBodyModal";
 import ContactBodyModal from "./frameModal/ContactBodyModal";
 import WebAppBodyModal from "./frameModal/WebAppBodyModal";
+import DocumentBodyModal from "./frameModal/DocumentBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -162,7 +163,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "document",
       name: "Документ",
       tooltip: "Сообщение типа документ",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <DocumentBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "location",
