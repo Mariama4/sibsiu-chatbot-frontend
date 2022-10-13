@@ -24,6 +24,7 @@ import MediaGroupBodyModal from "./frameModal/MediaGroupBodyModal";
 import VideoNoteBodyModal from "./frameModal/VideoNoteBodyModal";
 import VenueBodyModal from "./frameModal/VenueBodyModal";
 import ContactBodyModal from "./frameModal/ContactBodyModal";
+import WebAppBodyModal from "./frameModal/WebAppBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -148,7 +149,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "web_app",
       name: "Веб-приложение",
       tooltip: "Сообщение типа веб-приложение",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <WebAppBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
     {
       type: "document",
