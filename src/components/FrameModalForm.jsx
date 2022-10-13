@@ -27,6 +27,7 @@ import ContactBodyModal from "./frameModal/ContactBodyModal";
 import WebAppBodyModal from "./frameModal/WebAppBodyModal";
 import DocumentBodyModal from "./frameModal/DocumentBodyModal";
 import LocationBodyModal from "./frameModal/LocationBodyModal";
+import AnimationBodyModal from "./frameModal/AnimationBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -190,7 +191,14 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       type: "animation",
       name: "Анимация",
       tooltip: "Сообщение типа анимация",
-      modal: <TextBodyModal frame={frameData} setFrame={setFrameData} />,
+      modal: (
+        <AnimationBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
     },
   ];
 

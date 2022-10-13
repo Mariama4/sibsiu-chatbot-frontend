@@ -44,6 +44,8 @@ const VoiceBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
           <Card.Header>Голосовое сообщение:</Card.Header>
           <div className="align-self-top">
             <ReactPlayer
+              width={"250"}
+              height={"200"}
               controls
               muted
               className="align-self-center"

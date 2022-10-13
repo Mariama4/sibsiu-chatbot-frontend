@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, Col, Figure, Row, Form } from "react-bootstrap";
 import ReactPlayer from "react-player";
 
-const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
+const AnimationBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   const [localSrc, setLocalSrc] = useState("");
   const uri = import.meta.env.VITE_APP_API_URL;
   const onChange = (event) => {
@@ -26,45 +26,44 @@ const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   return (
     <Row className="mt-2 mb-2">
       <Col md={9}>
-        <Form.Group controlId="audio_caption">
+        <Form.Group controlId="animation_caption">
           <Form.Label>Текст: </Form.Label>
           <Form.Control
             as="textarea"
-            rows={17}
+            rows={10}
             type="text"
-            name="audio_caption"
+            name="animation_caption"
             placeholder="Введите текст сообщения..."
-            value={frame.audio_caption}
+            value={frame.animation_caption}
             onChange={onChange}
           />
         </Form.Group>
       </Col>
       <Col md={3} className="">
-        <Card border="light" bg="light">
-          <Card.Header>Звук:</Card.Header>
-          <div className="align-self-top">
-            <ReactPlayer
-              width={"250"}
-              height={"200"}
-              controls
-              muted
-              className="align-self-center"
-              url={
-                localSrc != ""
-                  ? localSrc
-                  : frame.audio != ""
-                  ? uri + "public/" + frame.audio
-                  : "https://via.placeholder.com/180.png"
-              }
-            />
-          </div>
+        <Card style={{ width: "18rem" }} border="light">
+          <Card.Title>Анимация:</Card.Title>
+          <Figure.Image
+            className="img-fluid rounded align-self-center"
+            alt="180x180"
+            width={180}
+            height={180}
+            variant="top"
+            src={
+              localSrc != ""
+                ? localSrc
+                : frame.animation != ""
+                ? uri + "public/" + frame.animation
+                : "https://via.placeholder.com/180.gif"
+            }
+            accept=".gif"
+          />
           <Card.Body>
-            <Form.Group controlId="audio" className="">
+            <Form.Group controlId="animation" className="">
               <Form.Control
                 type="file"
-                name="audio"
+                name="animation"
                 onChange={uploadMedia}
-                accept=".mp3"
+                accept=".gif"
               />
             </Form.Group>
           </Card.Body>
@@ -74,4 +73,4 @@ const VideoBodyModal = observer(({ frame, setFrame, media, setMedia }) => {
   );
 });
 
-export default VideoBodyModal;
+export default AnimationBodyModal;
