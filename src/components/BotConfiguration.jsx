@@ -8,17 +8,17 @@ const BotConfiguration = observer((props) => {
   const [token, setToken] = useState(botConfiguration.setting.token);
   const onClickSave = async (e) => {
     e.preventDefault();
-    await UpdateToken(botConfiguration.setting.id, token);
-    botConfiguration.setSetting(res_botName);
+    UpdateToken(botConfiguration.setting.id, token).then(({ result }) => {
+      botConfiguration.setSetting(result);
+    });
   };
 
   const onClickToggle = async (e) => {
     e.preventDefault();
-    const { result } = await UpdateBotStatus(
+    UpdateBotStatus(
       botConfiguration.setting.id,
       !botConfiguration.setting.status
-    );
-    botConfiguration.setSetting(result);
+    ).then(({ result }) => botConfiguration.setSetting(result));
   };
   return (
     <Container className="shadow-lg p-5">

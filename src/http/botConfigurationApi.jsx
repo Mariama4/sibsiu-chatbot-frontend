@@ -1,7 +1,7 @@
 import { Host, AuthHost } from "./index";
 
 const UpdateToken = async (id, token) => {
-  const { data } = await AuthHost.patch("api/configuration/token", {
+  const { data } = await AuthHost.patch("api/configuration/data", {
     id,
     token,
   });
