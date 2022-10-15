@@ -7,10 +7,11 @@ import { Reload } from "../http/botConfigurationApi";
 import { observer } from "mobx-react-lite";
 
 const Home = observer(() => {
-  const { botConfiguration } = useContext(Context);
+  const { botConfiguration, frame } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     document.title = "Home - SIBSIU";
+
     Reload()
       .then((data) => {
         botConfiguration.setSetting(data.result[0]);

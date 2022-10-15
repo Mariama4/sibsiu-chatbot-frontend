@@ -32,7 +32,6 @@ const FrameList = observer(() => {
   const onSearchFrames = (event) => {
     setSeatchFrames(event.target.value);
   };
-
   return (
     <Container className="mt-3">
       <Row
