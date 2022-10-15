@@ -1,7 +1,13 @@
 import Frames from "./pages/frames";
 import Home from "./pages/home";
 import Login from "./pages/login";
-import { FRAMES_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from "./utils/consts";
+import Statistic from "./pages/statistic";
+import {
+  FRAMES_ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  STATISTIC_ROUTE,
+} from "./utils/consts";
 
 const AuthRoutes = [
   {
@@ -11,6 +17,10 @@ const AuthRoutes = [
   {
     path: FRAMES_ROUTE,
     Component: Frames,
+  },
+  {
+    path: STATISTIC_ROUTE,
+    Component: Statistic,
   },
 ];
 const PublicRoutes = [

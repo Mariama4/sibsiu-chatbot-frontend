@@ -6,6 +6,7 @@ import Context from "./utils/context";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BotConfigurationStore from "./store/BotConfigurationStore";
 import FrameStore from "./store/FrameStrore";
+import StatisticStore from "./store/StatisticStore";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Context.Provider
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       user: new UserStore(),
       botConfiguration: new BotConfigurationStore(),
       frame: new FrameStore(),
+      statistic: new StatisticStore(),
     }}
   >
     <App />
