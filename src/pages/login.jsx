@@ -15,8 +15,8 @@ const Login = observer(() => {
   let { user } = useContext(Context);
   const navigate = useNavigate();
 
-  const onClick = async (data) => {
-    await LoginReq(data.variables.email, data.variables.password)
+  const onClick = async (email, password) => {
+    await LoginReq(email, password)
       .catch((error) => {
         // оставлю так для дальнейшей обработки
         if (error.response.status === 500) {
@@ -32,7 +32,7 @@ const Login = observer(() => {
       });
   };
 
-  return <UserForm action={onClick} formType="login" />;
+  return <UserForm onClick={onClick} formType="login" />;
 });
 
 export default Login;

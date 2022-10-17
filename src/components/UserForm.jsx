@@ -1,17 +1,15 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
+import { useRef } from "react";
 import { Container, Card, Form, Button } from "react-bootstrap";
 
-const UserForm = observer((props) => {
-  // устанавливаем состояние формы по умолчанию
-  const [values, setValues] = useState();
+const UserForm = observer(({ onClick }) => {
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
 
-  // обновляем состояние, когда пользователь вводит данные в форму
-  const onChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onClick(emailRef.current.value, passwordRef.current.value);
   };
   return (
     <Container
@@ -19,12 +17,7 @@ const UserForm = observer((props) => {
       style={{ height: "80vh" }}
     >
       <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          props.action({
-            variables: { ...values },
-          });
-        }}
+        onSubmit={onSubmit}
         style={{ width: "50vh" }}
         className="shadow-lg p-5"
       >
@@ -38,7 +31,7 @@ const UserForm = observer((props) => {
             type="email"
             name="email"
             placeholder="Введите ваш email..."
-            onChange={onChange}
+            ref={emailRef}
           />
         </Form.Group>
 
@@ -48,16 +41,12 @@ const UserForm = observer((props) => {
             type="password"
             name="password"
             placeholder="Введите ваш пароль..."
-            onChange={onChange}
             required
+            ref={passwordRef}
           />
         </Form.Group>
 
-        <Button
-          type="Submit"
-          variant="outline-dark"
-          onClick={props.action.onClick}
-        >
+        <Button type="Submit" variant="outline-dark">
           Войти
         </Button>
       </Form>

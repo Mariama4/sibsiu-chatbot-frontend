@@ -11,10 +11,7 @@ const Frames = observer(() => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     document.title = "Frames - SIBSIU";
-    const fetchData = async () => {
-      return await getFrames();
-    };
-    fetchData()
+    getFrames()
       .then((data) => {
         frame.setFrames(data["result"]);
       })
