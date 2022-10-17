@@ -1,10 +1,11 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Badge, Button, Container, Form } from "react-bootstrap";
 import { UpdateToken, UpdateBotStatus } from "../http/botConfigurationApi";
+import Context from "../utils/context";
 
-const BotConfiguration = observer((props) => {
-  const botConfiguration = props.data;
+const BotConfiguration = observer(() => {
+  const { botConfiguration } = useContext(Context);
   const [token, setToken] = useState(botConfiguration.setting.token);
   const onClickSave = async (e) => {
     e.preventDefault();

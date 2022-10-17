@@ -7,7 +7,7 @@ import { Reload } from "../http/botConfigurationApi";
 import { observer } from "mobx-react-lite";
 
 const Home = observer(() => {
-  const { botConfiguration, frame } = useContext(Context);
+  const { botConfiguration } = useContext(Context);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     document.title = "Home - SIBSIU";
@@ -27,7 +27,7 @@ const Home = observer(() => {
       style={{ width: "100vh", height: "80vh" }}
       fluid
     >
-      <BotConfiguration data={botConfiguration} />
+      <BotConfiguration />
     </Container>
   );
 });
