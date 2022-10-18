@@ -28,6 +28,7 @@ import WebAppBodyModal from "./frameModal/WebAppBodyModal";
 import DocumentBodyModal from "./frameModal/DocumentBodyModal";
 import LocationBodyModal from "./frameModal/LocationBodyModal";
 import AnimationBodyModal from "./frameModal/AnimationBodyModal";
+import StoredFramesBodyModal from "./frameModal/StoredFramesBodyModal";
 
 const FrameModalForm = observer(({ show, handleClose, id }) => {
   const { frame } = useContext(Context);
@@ -193,6 +194,19 @@ const FrameModalForm = observer(({ show, handleClose, id }) => {
       tooltip: "Сообщение типа анимация",
       modal: (
         <AnimationBodyModal
+          frame={frameData}
+          setFrame={setFrameData}
+          media={media}
+          setMedia={setMedia}
+        />
+      ),
+    },
+    {
+      type: "stored_frame_id",
+      name: "Встроенный фрейм",
+      tooltip: "Сообщение типа фрейм",
+      modal: (
+        <StoredFramesBodyModal
           frame={frameData}
           setFrame={setFrameData}
           media={media}

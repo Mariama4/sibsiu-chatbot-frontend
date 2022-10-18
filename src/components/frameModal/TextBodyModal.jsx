@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 
 const TextBodyModal = observer(({ frame, setFrame }) => {
