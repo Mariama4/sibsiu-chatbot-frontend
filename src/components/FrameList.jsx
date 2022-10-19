@@ -60,9 +60,11 @@ const FrameList = observer(() => {
 
       <ListGroup as="ol" numbered>
         {frame.frames
-          .filter((element) => {
-            return element["data"]["frame_id"].includes(searchFrames);
-          })
+          .filter((element) =>
+            element["data"]["frame_id"]
+              .toLowerCase()
+              .includes(searchFrames.toLowerCase())
+          )
           .map((element, index) => {
             return (
               <FrameItem key={index} id={element.id} onDelete={delFrame} />
