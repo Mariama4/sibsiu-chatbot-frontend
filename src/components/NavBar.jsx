@@ -7,6 +7,7 @@ import {
   FRAMES_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
+  LOGS_ROUTE,
   STATISTIC_ROUTE,
 } from "../utils/consts";
 import Context from "../utils/context";
@@ -41,6 +42,9 @@ const NavBar = observer((props) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link href={STATISTIC_ROUTE}>Statistic</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href={LOGS_ROUTE}>Logs</Nav.Link>
             </Nav.Item>
           </Nav>
         ) : (

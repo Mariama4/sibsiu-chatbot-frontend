@@ -9,6 +9,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import BotConfigurationStore from "./store/BotConfigurationStore";
 import FrameStore from "./store/FrameStrore";
 import StatisticStore from "./store/StatisticStore";
+import LogsStore from "./store/LogsStore";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Context.Provider
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       botConfiguration: new BotConfigurationStore(),
       frame: new FrameStore(),
       statistic: new StatisticStore(),
+      logs: new LogsStore(),
     }}
   >
     <App />
