@@ -2,30 +2,26 @@ import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Container } from "react-bootstrap";
 import Context from "../utils/context";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Doughnut, Pie, PolarArea } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 const random_rgba = () => {
-  var o = Math.round,
+  let o = Math.round,
     r = Math.random,
     s = 255;
-  return (
-    "rgba(" +
-    o(r() * s) +
-    "," +
-    o(r() * s) +
-    "," +
-    o(r() * s) +
-    "," +
-    r().toFixed(1) +
-    ")"
-  );
+  return "rgba(" + o(r() * s) + "," + o(r() * s) + "," + o(r() * s) + ",1)";
 };
 
 const ChartFrameUses = observer(() => {
-  const { statistic, frame } = useContext(Context);
+  const { statistic } = useContext(Context);
   const labels = [
     ...new Set(
       statistic.frameLog.map((element, index) => {
@@ -47,14 +43,14 @@ const ChartFrameUses = observer(() => {
           }, 0)
         ),
         backgroundColor: labels.map((element) => random_rgba()),
-        borderColor: labels.map((element) => random_rgba()),
+        // borderColor: labels.map((element) => random_rgba()),
         borderWidth: 1,
       },
     ],
   };
   return (
     <Container className="mt-3 mb-3 px-5" fluid>
-      <Pie data={data} />
+      <Doughnut data={data} />
     </Container>
   );
 });

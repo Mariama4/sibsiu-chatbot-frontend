@@ -60,7 +60,7 @@ const Statistic = observer(() => {
   return (
     <Container
       as={Row}
-      className="d-flex justify-content-around align-items-top"
+      className="d-flex justify-content-around align-items-top mt-2"
       fluid
     >
       <Col md={4}>
@@ -79,11 +79,16 @@ const Statistic = observer(() => {
         <ChartFrameUses />
       </Col>
       <Col md={4}>
-        <h3>Новые пользователи чат-бота:</h3>
-        <ChartTelegramBotNewUsers />
-      </Col>
-      <Col md={6}>
-        <TelegramBotUsers />
+        <Row>
+          <h3>Новые пользователи чат-бота:</h3>
+          <ChartTelegramBotNewUsers />
+        </Row>
+        <Row>
+          <h3>
+            Новые пользователи чат-бота: {statistic.telegramBotUsers.length}
+          </h3>
+          <TelegramBotUsers />
+        </Row>
       </Col>
     </Container>
   );

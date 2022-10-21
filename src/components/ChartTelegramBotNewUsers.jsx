@@ -23,20 +23,10 @@ ChartJS.register(
 );
 
 const random_rgba = () => {
-  var o = Math.round,
+  let o = Math.round,
     r = Math.random,
     s = 255;
-  return (
-    "rgba(" +
-    o(r() * s) +
-    "," +
-    o(r() * s) +
-    "," +
-    o(r() * s) +
-    "," +
-    r().toFixed(1) +
-    ")"
-  );
+  return "rgba(" + o(r() * s) + "," + o(r() * s) + "," + o(r() * s) + ",1)";
 };
 
 const ChartTelegramBotUsers = observer(() => {
@@ -49,31 +39,32 @@ const ChartTelegramBotUsers = observer(() => {
       },
     },
   };
-
-  const labels = Array.from(Array(32).keys());
-  labels.shift();
-  const currentMonth = new Date().getMonth();
+  const labels = [
+    ...new Set(
+      statistic.telegramBotUsers.map((element, index) => {
+        return element.createdAt.split("T").shift();
+      })
+    ),
+  ].sort();
+  const users = [
+    ...labels.map((label) =>
+      statistic.telegramBotUsers.reduce((previousValue, currentValue) => {
+        if (currentValue.createdAt.split("T").shift() == label) {
+          return previousValue + 1;
+        } else {
+          return previousValue;
+        }
+      }, 0)
+    ),
+  ];
   const data = {
     labels,
     datasets: [
       {
         label: "Пользователи",
-        data: labels.map((label) =>
-          statistic.telegramBotUsers.reduce((previousValue, currentValue) => {
-            let date = new Date(currentValue.createdAt);
-            let day = date.getDate();
-            let month = date.getMonth();
-            if (month != currentMonth) {
-              return previousValue;
-            }
-            if (day == label) {
-              return previousValue + 1;
-            }
-            return previousValue;
-          }, 0)
-        ),
-        backgroundColor: random_rgba(),
-        borderColor: random_rgba(),
+        data: users,
+        backgroundColor: labels.map((element) => random_rgba()),
+        borderColor: labels.map((element) => random_rgba()),
         borderWidth: 1,
       },
     ],

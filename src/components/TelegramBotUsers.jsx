@@ -7,7 +7,6 @@ const TelegramBotUsers = observer(() => {
   const { statistic } = useContext(Context);
   return (
     <Container className="mt-3 mb-3" style={{ width: "100vh" }} fluid>
-      <h3>Пользователи чат-бота: {statistic.telegramBotUsers.length}</h3>
       <hr />
       <Table responsive hover>
         <thead>
