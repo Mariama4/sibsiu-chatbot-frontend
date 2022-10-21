@@ -1,17 +1,17 @@
 import { Host, AuthHost } from "./index";
 
-const getTelegramBotLog = async () => {
-  const { data } = await AuthHost.get("api/tgbot_log");
+const getTelegramBotLog = async (formData) => {
+  const { data } = await AuthHost.post("api/tgbot_log/between-date", formData);
   return data;
 };
 
-const getFrameLog = async () => {
-  const { data } = await AuthHost.get("api/frame_log");
+const getFrameLog = async (formData) => {
+  const { data } = await AuthHost.post("api/frame_log/between-date", formData);
   return data;
 };
 
-const getTelegramBotUsers = async () => {
-  const { data } = await AuthHost.get("api/tgbot_user");
+const getTelegramBotUsers = async (formData) => {
+  const { data } = await AuthHost.post("api/tgbot_user/between-date", formData);
   return data;
 };
 

@@ -12,43 +12,77 @@ import TelegramBotUsers from "../components/TelegramBotUsers";
 import ChartTelegramBotNewUsers from "../components/ChartTelegramBotNewUsers";
 import ChartFrameUses from "../components/ChartFrameUses";
 import { getFrames } from "../http/frameApi";
+import { addDays } from "date-fns";
+import { DateRangePicker } from "react-date-range";
 
 const Statistic = observer(() => {
   const { statistic, frame } = useContext(Context);
+  const [state, setState] = useState([
+    {
+      startDate: addDays(new Date(), -7),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const onChangeDate = (item) => {
+    setState([item.selection]);
+  };
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     document.title = "Statistic - SIBSIU";
-    getFrames().then((data) => {
-      frame.setFrames(data["result"]);
-    });
-    getTelegramBotUsers().then((data) => {
+    // фигня чишо
+    let startDate = `${state[0].startDate.getFullYear()}/${
+      state[0].startDate.getMonth() + 1
+    }/${state[0].startDate.getDate()}`;
+    let endDate = `${state[0].endDate.getFullYear()}/${
+      state[0].endDate.getMonth() + 1
+    }/${state[0].endDate.getDate()}`;
+
+    let formData = new FormData();
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    // переделать
+    getTelegramBotUsers(formData).then((data) => {
       statistic.setTelegramBotUsers(data["result"]);
-      getFrameLog().then((data) => {
-        statistic.setFrameLog(data["result"]);
-        getTelegramBotLog()
-          .then((data) => {
-            statistic.setTelegramBotLog(data["result"]);
-          })
-          .finally(() => setLoading(false));
-      });
     });
-  });
+    getFrameLog(formData).then((data) => {
+      statistic.setFrameLog(data["result"]);
+    });
+    getTelegramBotLog(formData)
+      .then((data) => {
+        statistic.setTelegramBotLog(data["result"]);
+      })
+      .finally(() => setLoading(false));
+  }, [state]);
   if (loading) {
     return <Loading />;
   }
   return (
     <Container
       as={Row}
-      className="d-flex justify-content-around align-items-center"
+      className="d-flex justify-content-around align-items-top"
       fluid
     >
       <Col md={4}>
+        <h3>Календарь:</h3>
+        <DateRangePicker
+          onChange={onChangeDate}
+          showSelectionPreview={true}
+          moveRangeOnFirstSelection={false}
+          months={2}
+          ranges={state}
+          direction="vertical"
+        />
+      </Col>
+      <Col md={4}>
+        <h3>Статистика использования фреймов:</h3>
         <ChartFrameUses />
       </Col>
       <Col md={4}>
+        <h3>Новые пользователи чат-бота:</h3>
         <ChartTelegramBotNewUsers />
       </Col>
-      <Col md={12}>
+      <Col md={6}>
         <TelegramBotUsers />
       </Col>
     </Container>

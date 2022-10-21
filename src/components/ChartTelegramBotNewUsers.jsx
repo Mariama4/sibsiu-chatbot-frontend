@@ -22,6 +22,23 @@ ChartJS.register(
   Legend
 );
 
+const random_rgba = () => {
+  var o = Math.round,
+    r = Math.random,
+    s = 255;
+  return (
+    "rgba(" +
+    o(r() * s) +
+    "," +
+    o(r() * s) +
+    "," +
+    o(r() * s) +
+    "," +
+    r().toFixed(1) +
+    ")"
+  );
+};
+
 const ChartTelegramBotUsers = observer(() => {
   const { statistic } = useContext(Context);
   const options = {
@@ -29,10 +46,6 @@ const ChartTelegramBotUsers = observer(() => {
     plugins: {
       legend: {
         position: "top",
-      },
-      title: {
-        display: true,
-        text: "Появление новых пользователей за месяц",
       },
     },
   };
@@ -59,14 +72,15 @@ const ChartTelegramBotUsers = observer(() => {
             return previousValue;
           }, 0)
         ),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: random_rgba(),
+        borderColor: random_rgba(),
+        borderWidth: 1,
       },
     ],
   };
 
   return (
-    <Container className="shadow mt-3 mb-3" fluid>
-      <h3>Новые пользователи чат-бота:</h3>
+    <Container className=" mt-3 mb-3" fluid>
       <Bar options={options} data={data} />
     </Container>
   );

@@ -28,8 +28,8 @@ const ChartFrameUses = observer(() => {
   const { statistic, frame } = useContext(Context);
   const labels = [
     ...new Set(
-      frame.frames.map((element, index) => {
-        return element.data.frame_id;
+      statistic.frameLog.map((element, index) => {
+        return element.frame_id;
       })
     ),
   ];
@@ -38,7 +38,6 @@ const ChartFrameUses = observer(() => {
     labels: labels,
     datasets: [
       {
-        label: "# of Votes",
         data: labels.map((element) =>
           statistic.frameLog.reduce((previousValue, currentValue) => {
             if (element == currentValue.frame_id) {
@@ -54,8 +53,7 @@ const ChartFrameUses = observer(() => {
     ],
   };
   return (
-    <Container className="shadow mt-3 mb-3 px-5" fluid>
-      <h3>Статистика использования фреймов:</h3>
+    <Container className="mt-3 mb-3 px-5" fluid>
       <Pie data={data} />
     </Container>
   );
