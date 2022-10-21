@@ -16,7 +16,7 @@ import { addDays } from "date-fns";
 import { DateRangePicker } from "react-date-range";
 
 const Statistic = observer(() => {
-  const { statistic, frame } = useContext(Context);
+  const { statistic } = useContext(Context);
   const [state, setState] = useState([
     {
       startDate: addDays(new Date(), -7),
