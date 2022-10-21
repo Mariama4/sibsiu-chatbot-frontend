@@ -63,17 +63,19 @@ const Statistic = observer(() => {
       className="d-flex justify-content-around align-items-top mt-2"
       fluid
     >
-      <Col md={12}>
-        <h3>Календарь:</h3>
-        <DateRangePicker
-          onChange={onChangeDate}
-          showSelectionPreview={true}
-          moveRangeOnFirstSelection={false}
-          months={3}
-          ranges={state}
-          direction="horizontal"
-        />
-      </Col>
+      <Row md={12} className="border">
+        <Col>
+          <h3>Календарь:</h3>
+          <DateRangePicker
+            onChange={onChangeDate}
+            showSelectionPreview={true}
+            moveRangeOnFirstSelection={false}
+            months={2}
+            ranges={state}
+            direction="horizontal"
+          />
+        </Col>
+      </Row>
       <Col md={6}>
         <h3>Статистика использования фреймов:</h3>
         <ChartFrameUses />

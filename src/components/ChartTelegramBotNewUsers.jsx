@@ -64,14 +64,14 @@ const ChartTelegramBotUsers = observer(() => {
         label: "Пользователи",
         data: users,
         backgroundColor: labels.map((element) => random_rgba()),
-        borderColor: labels.map((element) => random_rgba()),
+        // borderColor: labels.map((element) => random_rgba()),
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <Container className=" mt-3 mb-3" fluid>
+    <Container className="mt-3 mb-3" fluid>
       <Bar options={options} data={data} />
     </Container>
   );

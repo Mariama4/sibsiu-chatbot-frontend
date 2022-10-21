@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Doughnut, Pie, PolarArea } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
@@ -49,7 +49,7 @@ const ChartFrameUses = observer(() => {
     ],
   };
   return (
-    <Container className="mt-3 mb-3 px-5" fluid>
+    <Container className="p-5">
       <Doughnut data={data} />
     </Container>
   );
