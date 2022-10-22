@@ -63,9 +63,8 @@ const Statistic = observer(() => {
       className="d-flex justify-content-around align-items-top mt-2"
       fluid
     >
-      <Row md={12} className="border">
-        <Col>
-          <h3>Календарь:</h3>
+      <Row md={12}>
+        <Col className="d-flex justify-content-center align-items-center">
           <DateRangePicker
             onChange={onChangeDate}
             showSelectionPreview={true}
